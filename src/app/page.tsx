@@ -3,9 +3,22 @@
 import { useEffect, useState } from "react";
 import { useAudioRecorder } from "react-audio-voice-recorder";
 import styles from "./page.module.css";
+import OpenAI from "openai";
 
 export default function Home() {
   const { startRecording, stopRecording, recordingBlob } = useAudioRecorder();
+  const [messages, setMessages] = useState<any[]>([
+    {
+      role: "system",
+      content:
+        "You are a helpful assistant helping people learn new languages by role playing real-world conversations. You are going to pretend to be a barista and the user is ordering a coffee from you. You'll be speaking in english with the user. Keep in mind the user has a intermediate difficulty in terms of language proficiency (levels would be beginner, intermediate, advanced).",
+    },
+    {
+      role: "user",
+      content:
+        "Can you start the conversation? Pretend like you are talking to the user.",
+    },
+  ]);
 
   // debug function
   const addAudioElement = (blob: any) => {
@@ -14,6 +27,32 @@ export default function Home() {
     audio.src = url;
     audio.controls = true;
     document.body.appendChild(audio);
+  };
+
+  const openai = new OpenAI({
+    apiKey: process.env.NEXT_PUBLIC_OPENAI_KEY,
+    dangerouslyAllowBrowser: true,
+  });
+
+  const generateResponses = async (input: string) => {
+    const userInput = {
+      role: "user",
+      content: input,
+    };
+
+    const updatedMessages = JSON.parse(JSON.stringify(messages));
+    updatedMessages.push(userInput);
+
+    const chatCompletion = await openai.chat.completions.create({
+      messages: updatedMessages,
+      model: "gpt-3.5-turbo",
+    });
+
+    updatedMessages.push(chatCompletion.choices[0].message);
+
+    setMessages(updatedMessages);
+
+    console.log(updatedMessages);
   };
 
   async function handleTranscription(blob: any) {
@@ -37,7 +76,10 @@ export default function Home() {
     );
 
     const data = await response.json();
-    console.log(data, " is data");
+
+    console.log(data.text, " is data");
+
+    await generateResponses(data.text);
   }
 
   const [recording, setRecording] = useState<boolean>(false);
