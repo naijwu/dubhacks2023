@@ -1,5 +1,6 @@
 "use client";
 
+import { generate } from "@/utils/synthesis";
 import { useEffect, useState } from "react";
 import { useAudioRecorder } from "react-audio-voice-recorder";
 import styles from "./page.module.css";
@@ -21,7 +22,7 @@ export default function Home() {
   ]);
 
   // debug function
-  const addAudioElement = (blob: any) => {
+  function addAudioElement(blob: any) {
     const url = URL.createObjectURL(blob);
     const audio = document.createElement("audio");
     audio.src = url;
@@ -112,11 +113,25 @@ export default function Home() {
     testFunc();
   }, [recordingBlob]);
 
+  // Debug function for synthesis
+  const doSynthesis = async () => {
+    const blob = await generate("안녕하세요", "kr");
+    addAudioElement(blob);
+    // const blob2 = await generate("hello", "en");
+    // addAudioElement(blob2);
+    // const blob3 = await generate("bonjour", "fr");
+    // addAudioElement(blob3);
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.floatBottom}>
         <div className={styles.toggle} onClick={handleToggle}>
           {recording ? "Stop speaking" : "Start speaking"}
+        </div>
+        
+        <div onClick={doSynthesis}>
+          test synthesis
         </div>
       </div>
     </div>
