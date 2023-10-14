@@ -9,12 +9,7 @@ export default function Home() {
   const {
     startRecording,
     stopRecording,
-    togglePauseResume,
-    recordingBlob,
-    isRecording,
-    isPaused,
-    recordingTime,
-    mediaRecorder
+    recordingBlob
   } = useAudioRecorder();
 
   // debug function
@@ -25,6 +20,17 @@ export default function Home() {
     audio.controls = true;
     document.body.appendChild(audio);
   };
+
+  async function handleTranscription(blob: any) {
+    // audio file -> openAI whisper -> text
+
+    const response = await fetch(`https://api.openai.com/v1/audio/transcriptions`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.OPENAI_KEY}`,
+      }
+    });
+  }
 
   const [recording, setRecording] = useState<boolean>(false);
 
@@ -55,7 +61,6 @@ export default function Home() {
 
       
       <div className={styles.floatBottom}>
-      
         <div className={styles.toggle} onClick={handleToggle}>
           {recording ? "Stop speaking" : "Start speaking"}
         </div>
