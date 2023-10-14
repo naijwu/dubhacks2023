@@ -1,5 +1,5 @@
 
-type language = 'en' | 'kr' | 'fr'
+type language = 'en' | 'kr' | 'fr' | 'cn'
 
 // returns corresponding esoteric configuration values for the languages; 
 //      config datareferred from to https://console.cloud.google.com/speech/text-to-speech
@@ -21,6 +21,12 @@ const LANGUAGE = (language: language, gender: 'FEMALE' | 'MALE' = 'FEMALE') => {
             return {
                 "languageCode":"fr-FR",
                 "name":"fr-FR-Standard-A",
+                "ssmlGender": gender
+            }
+        case "cn":
+            return {
+                "languageCode": "cmn-CN",
+                "name": "cmn-CN-Standard-A",
                 "ssmlGender": gender
             }
     }
