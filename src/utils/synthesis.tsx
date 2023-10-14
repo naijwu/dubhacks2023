@@ -1,7 +1,8 @@
 
-type language = 'en' | 'kr' | 'fr' | 'cn'
 
-// returns corresponding esoteric configuration values for the languages; 
+import { language } from "./types"
+
+// returns corresponding esoteric configuration values for the languages-- 
 //      config datareferred from to https://console.cloud.google.com/speech/text-to-speech
 const LANGUAGE = (language: language, gender: 'FEMALE' | 'MALE' = 'FEMALE') => {
     switch (language) {
