@@ -10,15 +10,16 @@ import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "@/utils/config";
 import { useEffect } from "react";
 import PenguinBBQ from "./PenguinBBQ";
+import { Button } from "@chakra-ui/react";
 
 export default function Landing({ onNext }: { onNext: () => void }) {
   const { currentUser, setCurrentUser, logout } = useAuth();
 
-  useEffect(() => {
-    if (currentUser) {
-      onNext();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (currentUser) {
+  //     onNext();
+  //   }
+  // }, []);
 
   const loginUsingGoogle = async () => {
     signInWithPopup(auth, provider)
@@ -34,26 +35,31 @@ export default function Landing({ onNext }: { onNext: () => void }) {
   };
 
   return (
-        <div className={styles.container}>
-            <div className={styles.hero}>
-                <Canvas 
-                    className={styles.animation}
-                    onCreated={({ gl }) => {
-                    gl.domElement.style.touchAction = 'auto';
-                    gl.domElement.style.userSelect = 'auto';
-                    }}>
-                    <PerspectiveCamera makeDefault position={[0, 0, 8]} rotation={[0, 0, 0]} />
-                    {/* <Penguin scale={0.005}/> */}
-                    <SpeechBubbles scale={0.035}/>
-                    {/* <PenguinBBQ/> */}
-                    {/* <OrbitControls/> */}
-                </Canvas>
-                <div className={styles.logo}>
-                    <div className={styles.logoContainer}>
-                        <Logo />
-                    </div>
-                </div>
-            </div>
+    <div className={styles.container}>
+      <div className={styles.hero}>
+        <Canvas
+          className={styles.animation}
+          onCreated={({ gl }) => {
+            gl.domElement.style.touchAction = "auto";
+            gl.domElement.style.userSelect = "auto";
+          }}
+        >
+          <PerspectiveCamera
+            makeDefault
+            position={[0, 0, 8]}
+            rotation={[0, 0, 0]}
+          />
+          {/* <Penguin scale={0.005}/> */}
+          <SpeechBubbles scale={0.035} />
+          {/* <PenguinBBQ/> */}
+          {/* <OrbitControls/> */}
+        </Canvas>
+        <div className={styles.logo}>
+          <div className={styles.logoContainer}>
+            <Logo />
+          </div>
+        </div>
+      </div>
 
       {currentUser ? (
         <div>
@@ -61,10 +67,13 @@ export default function Landing({ onNext }: { onNext: () => void }) {
           <button onClick={logout}>sign out</button>
         </div>
       ) : (
-        <button onClick={loginUsingGoogle} className={styles.siwg}>
-          <Google />
-          Continue with Google
-        </button>
+        <Button
+          bgGradient="linear(to-b, #C2F9C9, #7BC6C1)"
+          onClick={onNext}
+          className={styles.siwg}
+        >
+          Start a new conversation
+        </Button>
       )}
     </div>
   );

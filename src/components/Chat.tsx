@@ -9,7 +9,6 @@ import WhiteMic from "./WhiteMic";
 import Image from "next/image";
 import BlurOdd from "@/images/BlurOdd";
 import Blur from "@/images/Blur";
-import Typist from 'react-typist';
 
 export default function Chat({
   setup,
@@ -80,7 +79,7 @@ export default function Chat({
     addAudioElement(blob, true);
 
     setLoading(false);
-    
+
     scrollToBottomChat();
 
     // get recommended response
@@ -113,20 +112,19 @@ export default function Chat({
     const data = await response.json();
 
     if (!data.text) {
-        setLoading(false)
-        return
+      setLoading(false);
+      return;
     }
 
-
     const userInput = {
-        role: "user",
-        content: data.text,
+      role: "user",
+      content: data.text,
     };
-  
+
     const updatedMessages = JSON.parse(JSON.stringify(messages));
     updatedMessages.push(userInput);
-    setMessages(updatedMessages)
-    
+    setMessages(updatedMessages);
+
     await generateResponses(updatedMessages);
   }
 
@@ -145,12 +143,12 @@ export default function Chat({
     }
   };
 
-  const chatBottomRef = useRef<HTMLDivElement>(null)
+  const chatBottomRef = useRef<HTMLDivElement>(null);
 
   function scrollToBottomChat() {
-      if (chatBottomRef.current) {
-          chatBottomRef.current.scrollIntoView({ behavior: 'smooth' })
-      }
+    if (chatBottomRef.current) {
+      chatBottomRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   }
 
   useEffect(() => {
@@ -175,53 +173,77 @@ export default function Chat({
 
   return (
     <div className={styles.container}>
-        <div className={styles.blursContainer}>
-            <div className={styles.blursInner}>
-                <div className={styles.blurOne}>
-                    <Blur />
-                </div>
-                <div className={styles.blurTwo}>
-                    <BlurOdd />
-                </div>
-            </div>
+      <div className={styles.blursContainer}>
+        <div className={styles.blursInner}>
+          <div className={styles.blurOne}>
+            <Blur />
+          </div>
+          <div className={styles.blurTwo}>
+            <BlurOdd />
+          </div>
         </div>
+      </div>
 
       <div className={styles.history}>
-        {messages?.length > 1 ? messages?.map(
-          (message, index) =>
-            index > 0 && (
-              <div className={`${styles.text} ${messages.length - 2 <= index ? styles.current : ''} ${message.role == "user" ? styles.right : styles.left}`} key={index}>
-                
-                {message.content}
-              </div>
-            )
+        {messages?.length > 1 ? (
+          messages?.map(
+            (message, index) =>
+              index > 0 && (
+                <div
+                  className={`${styles.text} ${
+                    messages.length - 2 <= index ? styles.current : ""
+                  } ${message.role == "user" ? styles.right : styles.left}`}
+                  key={index}
+                >
+                  {message.content}
+                </div>
+              )
+          )
         ) : (
-            <div className={styles.conversationStart}>
-                Start the conversation!
-            </div>
+          <div className={styles.conversationStart}>
+            Start the conversation!
+          </div>
         )}
         <div className={styles.bottomHistoryPad}></div>
         <div ref={chatBottomRef}></div>
       </div>
 
       <div className={styles.floatBottom}>
-            <div className={styles.anchor}>
-                    <div className={styles.toggle} onClick={handleToggle}>
-                        {!loading
-                            ? recording
-                            ? <div className={styles.recordingButton}><WhiteMic /></div>
-                            : <div className={styles.recordButton}><WhiteMic /></div>
-                            : <div className={styles.loadingButton}><Image objectFit="cover" fill={true} alt="Loading" src="/Avatar.png" /></div>}
-                    </div>
-                            <div className={`${styles.helper} ${!loadingHelp && recommended ? styles.show : ''}`}>
-                                Possible response: {recommended}
-                            </div>
-            </div>
+        <div className={styles.anchor}>
+          <div className={styles.toggle} onClick={handleToggle}>
+            {!loading ? (
+              recording ? (
+                <div className={styles.recordingButton}>
+                  <WhiteMic />
+                </div>
+              ) : (
+                <div className={styles.recordButton}>
+                  <WhiteMic />
+                </div>
+              )
+            ) : (
+              <div className={styles.loadingButton}>
+                <Image
+                  objectFit="cover"
+                  fill={true}
+                  alt="Loading"
+                  src="/Avatar.png"
+                />
+              </div>
+            )}
+          </div>
+          <div
+            className={`${styles.helper} ${
+              !loadingHelp && recommended ? styles.show : ""
+            }`}
+          >
+            Possible response: {recommended}
+          </div>
+        </div>
         <div className={styles.exit} onClick={handleQuit}>
           Finish
         </div>
       </div>
-
     </div>
   );
 }
