@@ -8,149 +8,48 @@ import OpenAI from "openai";
 import Penguin from "@/components/Penguin";
 import { Canvas } from "react-three-fiber";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
+import Chat from "@/components/Chat";
+import Landing from "@/components/Landing";
+import Report from "@/components/Report";
+import Setup from "@/components/Setup";
+import { setupData } from "@/utils/types";
+// import { useState } from "react";
 
 export default function Home() {
-  const { startRecording, stopRecording, recordingBlob } = useAudioRecorder();
-  const [messages, setMessages] = useState<any[]>([
-    {
-      role: "system",
-      content:
-        "You are a helpful assistant helping people learn new languages by role playing real-world conversations. You are going to pretend to be a barista and the user is ordering a coffee from you. You'll be speaking in english with the user. Keep in mind the user has a intermediate difficulty in terms of language proficiency (levels would be beginner, intermediate, advanced).",
-    },
-    {
-      role: "user",
-      content:
-        "Can you start the conversation? Pretend like you are talking to the user.",
-    },
-  ]);
 
-  // debug function
-  function addAudioElement(blob: any) {
-    const url = URL.createObjectURL(blob);
-    const audio = document.createElement("audio");
-    audio.src = url;
-    audio.controls = true;
-    document.body.appendChild(audio);
-  };
+  const [currentScreen, setCurrentScreen] = useState<'landing' | 'setup' | 'chat' | 'report'>('landing');
 
-  const openai = new OpenAI({
-    apiKey: process.env.NEXT_PUBLIC_OPENAI_KEY,
-    dangerouslyAllowBrowser: true,
+  // default values
+  const [setupData, setSetupData] = useState<setupData>({
+    language: {
+      plaintext: 'english',
+      code: 'en',
+    },
+    difficulty: 'beginner',
+    situation: 'taking an order from a barista at a coffee shop.'
   });
+  const [chatData, setChatData] = useState<any>();
 
-  const generateResponses = async (input: string) => {
-    const userInput = {
-      role: "user",
-      content: input,
-    };
-
-    const updatedMessages = JSON.parse(JSON.stringify(messages));
-    updatedMessages.push(userInput);
-
-    const chatCompletion = await openai.chat.completions.create({
-      messages: updatedMessages,
-      model: "gpt-3.5-turbo",
-    });
-
-    updatedMessages.push(chatCompletion.choices[0].message);
-
-    setMessages(updatedMessages);
-
-    console.log(updatedMessages);
-  };
-
-  async function handleTranscription(blob: any) {
-    // audio file -> openAI whisper -> text
-
-    const formData = new FormData();
-    const file = new File([blob], "audio.webm", { type: "webm/audio" });
-
-    formData.append("model", "whisper-1");
-    formData.append("file", file);
-
-    const response = await fetch(
-      `https://api.openai.com/v1/audio/transcriptions`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPENAI_KEY}`,
-        },
-        body: formData,
-      }
-    );
-
-    const data = await response.json();
-
-    console.log(data.text, " is data");
-
-    await generateResponses(data.text);
-  }
-
-  const [recording, setRecording] = useState<boolean>(false);
-
-  const handleToggle = () => {
-    if (recording) {
-      // currently speaking, stop and process
-      stopRecording();
-
-      setRecording(false);
-    } else {
-      // not recording, start speaking
-      startRecording();
-
-      setRecording(true);
+  const handleNext = () => {
+    if (currentScreen === 'landing') {
+      setCurrentScreen('setup');
+    } else if (currentScreen === 'setup') {
+      setCurrentScreen('chat');
+    } else if (currentScreen === 'chat') {
+      setCurrentScreen('report');
     }
-  };
-
-  useEffect(() => {
-    if (!recordingBlob) return;
-
-    // recordingBlob will be present at this point after 'stopRecording' has been called
-    console.log(recordingBlob);
-    addAudioElement(recordingBlob);
-
-    const testFunc = async () => {
-      await handleTranscription(recordingBlob);
-    };
-
-    testFunc();
-  }, [recordingBlob]);
-
-  // Debug function for synthesis
-  const doSynthesis = async () => {
-    const blob = await generate("안녕하세요", "kr");
-    addAudioElement(blob);
-    // const blob2 = await generate("hello", "en");
-    // addAudioElement(blob2);
-    // const blob3 = await generate("bonjour", "fr");
-    // addAudioElement(blob3);
   }
+  return (currentScreen === 'report' && chatData) ? (
+    // report
+    <Report data={chatData} onNext={handleNext} />
+  ) : (currentScreen === 'chat' && setupData) ? (
+    // convo
+    <Chat setup={setupData} setData={setChatData} onNext={handleNext} />
+  ) : (currentScreen === 'setup') ? (
+    // setup
+    <Setup data={setupData} setData={setSetupData} onNext={handleNext} />
+  ) : (
+    <Landing />
 
-  return (
-    <div className={styles.container}>
-      <div className={styles.floatBottom}>
-        <div className={styles.toggle} onClick={handleToggle}>
-          {recording ? "Stop speaking" : "Start speaking"}
-        </div>
-        
-        <div onClick={doSynthesis}>
-          test synthesis
-        </div>
-
-        <Canvas 
-          style={{ height: '1000px',
-            background: 'transparent' }}
-            onCreated={({ gl }) => {
-              gl.domElement.style.touchAction = 'auto';
-              gl.domElement.style.userSelect = 'auto';
-            }}
-            >
-          <PerspectiveCamera makeDefault position={[0, -1, 8]} />
-          <Penguin scale={0.005}/>
-          {/* <OrbitControls enableRotate={false}
-            enableZoom={false}/> */}
-        </Canvas>
-      </div>
-    </div>
-  );
+  )
 }
