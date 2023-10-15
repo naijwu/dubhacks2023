@@ -35,7 +35,7 @@ export default function Home() {
             position={[2, 0.5, 8]}
             rotation={[0, 0, 0]}
           />
-          <PenguinHome scale={0.013} s />
+          <PenguinHome scale={0.0115} s />
         </Canvas>
       </Box>
 
