@@ -98,3 +98,64 @@ a {
 audio {
   display: none;
 }
+
+
+.homePage {
+  overflow: hidden;
+}
+
+.textHome {
+  color: #F9F6F4;
+  /* font-family: Montserrat; */
+  font-size: 45.799px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.homeButton {
+  width: 303.418px;
+  height: 50.145px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.newConversation {
+  border-radius: 12px;
+  background: linear-gradient(180deg, #C2F9C9 0%, #7BC6C1 100%);
+
+  color: #000;
+  /* font-family: Inter; */
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.viewHistory {
+  border-radius: 12px;
+  border: 5px solid #F9F6F4;
+  background-color: transparent;
+
+  color: #F9F6F4;
+  /* font-family: Inter; */
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.logOut {
+  color: #fff;
+  /* font-family: Inter; */
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  cursor: pointer;
+}
+
+
+
+
+
