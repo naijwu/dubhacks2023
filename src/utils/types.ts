@@ -9,5 +9,9 @@ export type languagePayload = {
 export type setupData = {
     language: languagePayload,
     difficulty: 'beginner' | 'intermediate' | 'advanced',
-    situation: string
+    situation: {
+        user: string,
+        assistant: string,
+        action: string,
+    }
 }

@@ -4,13 +4,7 @@ import { generate } from "@/utils/synthesis";
 import { useEffect, useState } from "react";
 import { useAudioRecorder } from "react-audio-voice-recorder";
 import styles from "./Chat.module.css";
-import { languagePayload } from "@/utils/types";
 import { openai } from "@/utils/openai";
-
-// const LANGUAGE: languagePayload = {
-//   plaintext: 'korean',
-//   code: 'kr'
-// }
 
 export default function Chat({
     setup,
@@ -21,18 +15,13 @@ export default function Chat({
     setData: any;
     onNext: () => void;
 }) {
+    const [loading, setLoading] = useState<boolean>(false);
 
     const { startRecording, stopRecording, recordingBlob } = useAudioRecorder();
     const [messages, setMessages] = useState<any[]>([
         {
             role: "system",
-            content: `You are a helpful assistant helping people learn new languages by role playing real-world conversations. The user is ${setup.situation}. You'll be speaking in ${setup.language.plaintext} with the user. Keep in mind the user has a ${setup.difficulty} difficulty in terms of language proficiency (levels would be beginner, intermediate, advanced).`
-            // `You are a helpful assistant helping people learn new languages by role playing real-world conversations. You are going to pretend to be a barista and the user is ordering a coffee from you. You'll be speaking in ${LANGUAGE.plaintext} with the user. Keep in mind the user has a intermediate difficulty in terms of language proficiency (levels would be beginner, intermediate, advanced).`,
-        },
-        {
-            role: "user",
-            content:
-            `Can you start the conversation? Pretend like you are talking to the user. Speak in ${setup.language.plaintext}.`,
+            content: `You are going to help the user learn new languages by role playing real-world conversations. You are a ${setup.situation.assistant}. They are a ${setup.situation.user}. They are trying to ${setup.situation.action}. You'll be speaking in ${setup.language.plaintext} with the user. The user has ${setup.difficulty} skill of that language: adjust the complexity of your responses to be the same as their language skill. Start the conversation.`
         },
     ]);
 
@@ -64,11 +53,17 @@ export default function Chat({
     updatedMessages.push(chatCompletion.choices[0].message);
     setMessages(updatedMessages);
 
+    // last
     const blob = await generate(chatCompletion.choices[0].message.content || '', setup.language.code);
     addAudioElement(blob, true);
+    setLoading(false);
+
   };
 
   async function handleTranscription(blob: any) {
+    if (loading) return
+    setLoading(true)
+
     // audio file -> openAI whisper -> text
     const formData = new FormData();
     const file = new File([blob], "audio.webm", { type: "webm/audio" });
@@ -94,6 +89,7 @@ export default function Chat({
   const [recording, setRecording] = useState<boolean>(false);
 
   const handleToggle = () => {
+    if (loading) return;
     if (recording) {
       // currently speaking, stop and process
       stopRecording();
@@ -109,14 +105,14 @@ export default function Chat({
     if (!recordingBlob) return;
 
     // recordingBlob will be present at this point after 'stopRecording' has been called
-    console.log(recordingBlob);
+    // console.log(recordingBlob);
     addAudioElement(recordingBlob);
 
-    const testFunc = async () => {
+    const doTranscription = async () => {
       await handleTranscription(recordingBlob);
     };
 
-    testFunc();
+    doTranscription();
   }, [recordingBlob]);
 
   function handleQuit() {
@@ -128,7 +124,7 @@ export default function Chat({
   return (
     <div className={styles.container}>
       <div className={styles.history}>
-        {messages?.map((message, index) => index > 1 && (
+        {messages?.map((message, index) => index > 0 && (
           <div key={index}>
             {`${message.role == 'user' ? '👤' : '🤖'}`} {message.content}
           </div>
@@ -137,7 +133,7 @@ export default function Chat({
 
       <div className={styles.floatBottom}>
         <div className={styles.toggle} onClick={handleToggle}>
-          {recording ? "Stop speaking" : "Start speaking"}
+          {!loading ? recording ? "Stop speaking" : "Start speaking" : "loading..."}
         </div>
         <div className={styles.exit} onClick={handleQuit}>
             Quit

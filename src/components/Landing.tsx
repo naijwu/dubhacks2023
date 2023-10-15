@@ -1,57 +1,58 @@
 import Logo from "./Logo";
 import styles from "./Landing.module.css";
 import Google from "./Google";
-import { provider } from "../utils/config";
-import { signInWithPopup, getAuth, onAuthStateChanged } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { useAuth } from "@/utils/AuthContext";
+import { signInWithPopup } from "firebase/auth";
+import { auth, provider } from "@/utils/config";
+import { useEffect } from "react";
 
-export default function Landing() {
-  const [user, setUser] = useState({});
+export default function Landing({
+    onNext
+}: {
+    onNext: () => void;
+}) {
 
-  const auth = getAuth();
-  //   onAuthStateChanged(auth, (userExists) => {
-  //     if (userExists) {
-  //       setUser(userExists);
-  //       console.log("SIGNED IN");
-  //       console.log(user, " is the user");
-  //     } else {
-  //       setUser({});
-  //       console.log(user, " is the user");
-  //       console.log("not signed in");
-  //     }
-  //   });
+    const { currentUser, setCurrentUser, logout } = useAuth();
 
-  const logIn = async () => {
-    signInWithPopup(auth, provider)
-      .then(({ user }) => {
-        const { uid, email, displayName, photoURL } = user;
-        console.log(uid, email, displayName, photoURL);
-        setUser(user);
-      })
-      .catch((error) => {
-        console.error(error, " is the error");
-      });
-  };
+    useEffect(() => {
+        if (currentUser) {
+            onNext();
+        }
+    }, [])
 
-  const signOut = async () => {
-    auth.signOut();
-  };
+    const loginUsingGoogle = async () => {
+        
+        signInWithPopup(auth, provider)
+        .then(({ user }) => {
+            if (user) {
+                setCurrentUser(user);
+                onNext();
+            }
+        })
+        .catch((error) => {
+            console.error(error, " is the error");
+        });
+    }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.logo}>
-        <div className={styles.logoContainer}>
-          <Logo />
+        <div className={styles.container}>
+        <div className={styles.logo}>
+            <div className={styles.logoContainer}>
+            <Logo />
+            </div>
         </div>
-      </div>
-      {user !== {} ? (
-        <button onClick={signOut}>sign out</button>
-      ) : (
-        <button onClick={logIn} className={styles.siwg}>
-          <Google />
-          Continue with Google
-        </button>
-      )}
-    </div>
+
+        {currentUser ? (
+            <div>
+                <button onClick={onNext}>start</button>
+                <button onClick={logout}>sign out</button>
+            </div>
+        ) : (
+            <button onClick={loginUsingGoogle} className={styles.siwg}>
+                <Google />
+                Continue with Google
+            </button>
+        )}
+        </div>
   );
 }

@@ -8,7 +8,7 @@ export default function Report({
     data: any;
     onNext: () => void;
 }) {
-    console.log(data)
+    // console.log(data)
     const [rating, setRating] = useState<any[] | null>(null);
 
     async function loadReport() {
@@ -37,7 +37,7 @@ export default function Report({
           const ratingString = chatCompletion.choices[0].message.content || ''
       
           setRating(ratingString.split(','));
-          console.log(ratingString)
+        //   console.log(ratingString)
     }
     
 
