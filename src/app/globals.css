@@ -6,6 +6,8 @@
   --color-yellow: #ffe678;
   --color-purple: #969ff4;
   --color-violet: #dd8cdc;
+
+  --circular-button-size: 80px;
 }
 
 * {
@@ -15,7 +17,7 @@
 }
 
 html {
-  background-color: var(--color-dark); 
+  background-color: var(--color-dark);
   color: var(--color-cream);
 }
 
@@ -28,7 +30,7 @@ body {
 
 .progress-bar {
   font-size: 30px;
-  color: var(--color-dark)
+  color: var(--color-dark);
 }
 
 /*

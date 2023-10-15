@@ -1,0 +1,128 @@
+.exit {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background-color: var(--color-dark);
+
+  cursor: pointer;
+  user-select: none;
+  color: var(--color-cream);
+  font-weight: 600;
+  border-radius: 10px;
+  border: 2px solid var(--color-cream);
+  padding: 0.5rem 0.8rem;
+  min-width: 100px;
+  text-align: center;
+}
+
+.toggle {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+}
+
+.recordButton {
+  height: var(--circular-button-size);
+  min-width: var(--circular-button-size);
+  min-height: var(--circular-button-size);
+  width: var(--circular-button-size);
+  display: flex;
+  border-radius: 100%;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  cursor: pointer;
+  position: fixed;
+
+  background: linear-gradient(
+    to bottom right,
+    var(--color-teal),
+    var(--color-green)
+  );
+}
+
+.recordingButton {
+  height: var(--circular-button-size);
+  width: var(--circular-button-size);
+  min-width: var(--circular-button-size);
+  min-height: var(--circular-button-size);
+  display: flex;
+  align-items: center;
+  border-radius: 100%;
+  justify-content: center;
+
+  cursor: pointer;
+  position: fixed;
+
+  background: linear-gradient(
+    to bottom right,
+    var(--color-purple),
+    var(--color-violet)
+  );
+}
+
+.anchor {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  min-height: var(--circular-button-size);
+}
+.anchorInner {
+  position: relative;
+  min-height: var(--circular-button-size);
+}
+
+.helper {
+  position: absolute;
+  background-color: #555a65;
+  width: 70vw;
+  height: 100%;
+  top: 0;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  margin-left: calc(var(--circular-button-size) / 2);
+  padding-left: calc(calc(var(--circular-button-size) / 2) + 0.8rem);
+  padding-right: 0.8rem;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+  border-radius: 10px;
+  color: white;
+}
+.recommendation {
+  position: absolute;
+  color: var(--color-cream);
+  top: 100%;
+  opacity: 0.75;
+}
+
+.history {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 3rem;
+  padding-bottom: 20vh;
+  gap: 0.75rem;
+}
+
+.text {
+  color: var(--color-cream);
+  font-size: 2rem;
+  font-weight: 600;
+  max-width: 80vw;
+  opacity: 0.5;
+}
+
+.text.right {
+  text-align: left;
+  align-self: flex-end;
+}
+
+.text.left {
+  text-align: left;
+  align-self: flex-start;
+}
+
+.text.current {
+  opacity: 1;
+}

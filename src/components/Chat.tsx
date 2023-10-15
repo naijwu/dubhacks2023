@@ -1,11 +1,12 @@
 "use client";
 
 import { generate } from "@/utils/synthesis";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAudioRecorder } from "react-audio-voice-recorder";
 import styles from "./Chat.module.css";
 import { openai } from "@/utils/openai";
-import ProgressBar from "./ProgressBar";
+import WhiteMic from "./WhiteMic";
+import Image from "next/image";
 
 export default function Chat({
   setup,
@@ -83,6 +84,8 @@ export default function Chat({
     addAudioElement(blob, true);
 
     setLoading(false);
+    
+    scrollToBottomChat();
 
     // get recommended response
     await fetchRecommendedResponses(
@@ -137,6 +140,14 @@ export default function Chat({
     }
   };
 
+  const chatBottomRef = useRef<HTMLDivElement>(null)
+
+  function scrollToBottomChat() {
+      if (chatBottomRef.current) {
+          chatBottomRef.current.scrollIntoView({ behavior: 'smooth' })
+      }
+  }
+
   useEffect(() => {
     if (!recordingBlob) return;
 
@@ -159,36 +170,41 @@ export default function Chat({
 
   return (
     <div className={styles.container}>
-      <ProgressBar page={2} />
       <div className={styles.history}>
         {messages?.map(
           (message, index) =>
             index > 0 && (
-              <div key={index}>
-                {`${message.role == "user" ? "👤" : "🤖"}`} {message.content}
+              <div className={`${styles.text} ${messages.length - 2 <= index ? styles.current : ''} ${message.role == "user" ? styles.right : styles.left}`} key={index}>
+                {message.content}
               </div>
             )
         )}
+        <div ref={chatBottomRef}></div>
       </div>
 
       <div className={styles.floatBottom}>
-        {loadingHelp ? (
-          "loading recommended"
-        ) : recommended ? (
-          `Possible response: ${recommended}`
-        ) : (
-          <></>
-        )}
-
-        <div className={styles.toggle} onClick={handleToggle}>
-          {!loading
-            ? recording
-              ? "Stop speaking"
-              : "Start speaking"
-            : "loading..."}
+        <div className={styles.toggle}>
+            <div className={styles.anchor}>
+                <div className={styles.anchorInner}>
+                        {!loadingHelp && recommended ? (
+                            <div className={styles.helper}>
+                                Possible response: {recommended}
+                            </div>
+                            ) : (
+                            <></>
+                        )}
+                    <div onClick={handleToggle}>
+                        {!loading
+                            ? recording
+                            ? <div className={styles.recordingButton}><WhiteMic /></div>
+                            : <div className={styles.recordButton}><WhiteMic /></div>
+                            : <div className={styles.recordButton}><Image objectFit="cover" fill={true} alt="Loading" src="/Avatar.png" /></div>}
+                    </div>
+                </div>
+            </div>
         </div>
         <div className={styles.exit} onClick={handleQuit}>
-          Quit
+          Finish
         </div>
       </div>
     </div>
