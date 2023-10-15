@@ -70,6 +70,8 @@ export default function Landing({ onNext }: { onNext: () => void }) {
             onClick={onNext}
             className={styles.siwg}
             zIndex="2"
+            position="relative"
+            bottom="60px"
             >
             Start a new conversation
             </Button>
@@ -77,11 +79,13 @@ export default function Landing({ onNext }: { onNext: () => void }) {
         </div>
 
         <Box maxW="100vw" w="calc(100% - 200px)" overflow="hidden">
-            <Image src="./images/mascotBBQ.gif"
+            <Image
+            // src="./images/mascotBBQ.gif"
+            src="./images/camping2.gif"
             position="absolute"
             left="300px"
             top="-35px"
-            scale="1.3"/>
+            scale="1.2"/>
         </Box>
     </Box>
     
