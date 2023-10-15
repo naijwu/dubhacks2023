@@ -35,6 +35,26 @@ export default function Chat({
     document.body.appendChild(audio);
   };
 
+  const [recommended, setRecommended] = useState<string>('');
+  const [loadingHelp, setLoadingHelp] = useState<boolean>(false);
+
+  async function fetchRecommendedResponses(lastResponse: string) {
+    if (loadingHelp) return
+    setLoadingHelp(true)
+    const chatCompletion = await openai.chat.completions.create({
+      messages: [
+        {
+            role: "system",
+            content: `A ${setup.situation.user} is trying to ${setup.situation.action} from a ${setup.situation.assistant}. They told by ${setup.situation.assistant}: "${lastResponse}". Respond to this message with a recommended response the ${setup.situation.user} could say word for word to the ${setup.situation.assistant}, in the ${setup.language.plaintext} language.`
+        }
+      ],
+      model: "gpt-3.5-turbo",
+    });
+    
+    setRecommended(chatCompletion.choices[0].message.content || '');
+    setLoadingHelp(false)
+  }
+
   // takes user response, sends it to openai, gets response and updates message
   const generateResponses = async (input: string) => {
     const userInput = {
@@ -44,6 +64,7 @@ export default function Chat({
 
     const updatedMessages = JSON.parse(JSON.stringify(messages));
     updatedMessages.push(userInput);
+    setRecommended(``)
 
     const chatCompletion = await openai.chat.completions.create({
       messages: updatedMessages,
@@ -56,8 +77,11 @@ export default function Chat({
     // last
     const blob = await generate(chatCompletion.choices[0].message.content || '', setup.language.code);
     addAudioElement(blob, true);
+
     setLoading(false);
 
+    // get recommended response
+    await fetchRecommendedResponses(chatCompletion.choices[0].message.content || '')
   };
 
   async function handleTranscription(blob: any) {
@@ -132,6 +156,8 @@ export default function Chat({
       </div>
 
       <div className={styles.floatBottom}>
+        {loadingHelp ? 'loading recommended' : recommended ? `Possible response: ${recommended}` : <></>}
+
         <div className={styles.toggle} onClick={handleToggle}>
           {!loading ? recording ? "Stop speaking" : "Start speaking" : "loading..."}
         </div>
