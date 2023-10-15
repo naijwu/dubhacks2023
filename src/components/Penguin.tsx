@@ -11,7 +11,7 @@ import { useFrame } from 'react-three-fiber';
 
 export default function Penguin({ ...props }) {
 
-    const group = useRef();
+    const group = useRef<any>();
     const [positionY, setPositionY] = useState(0);
     const amplitude = 0.1;
     const frequency = 20;
