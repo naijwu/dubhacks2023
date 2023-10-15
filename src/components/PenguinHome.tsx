@@ -13,15 +13,16 @@ export default function PenguinHome({ ...props }) {
 
     const group = useRef<any>();
     const [positionY, setPositionY] = useState(0);
-    const amplitude = 7;
-    const frequency = 1;
+    const amplitude = 1;
+    const frequency = 6;
 
     useFrame(() => {
         if (group.current) {
-          group.current.rotation.y += 0.0; // Adjust the rotation speed as needed
+          group.current.position.y = positionY + amplitude * Math.sin(frequency * group.current.rotation.y);
+          // group.current.rotation.y += 0.0001; // Adjust the rotation speed as needed
         //   group.current.rotation.y += 0.000; // Adjust the rotation speed as needed
 
-            group.current.position.y = positionY + amplitude * Math.sin(frequency * group.current.rotation.y);
+            // group.current.position.y = positionY + amplitude * Math.sin(frequency * group.current.rotation.y);
         }
       });
 
