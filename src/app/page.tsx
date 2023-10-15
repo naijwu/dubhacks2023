@@ -20,9 +20,9 @@ export default function Home() {
     },
     difficulty: 'beginner',
     situation: {
-      user: '',
-      assistant: '',
-      action: '',
+      user: 'customer',
+      assistant: 'barista',
+      action: 'buying a coffee',
     }
   });
   const [chatData, setChatData] = useState<any>();

@@ -107,6 +107,12 @@ export default function Chat({
     );
 
     const data = await response.json();
+
+    if (!data.text) {
+        setLoading(false)
+        return
+    }
+    
     await generateResponses(data.text);
   }
 
