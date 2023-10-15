@@ -40,6 +40,15 @@
   height: 400px !important;
 } */
 
+.slogan {
+  color: #F9F6F4;
+  text-align: right;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
 .container {
   display: flex;
   flex-direction: row;

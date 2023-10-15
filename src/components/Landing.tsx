@@ -10,7 +10,7 @@ import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "@/utils/config";
 import { useEffect } from "react";
 import PenguinBBQ from "./PenguinBBQ";
-import { Box, Button, Image } from "@chakra-ui/react";
+import { Box, Button, Image, Text } from "@chakra-ui/react";
 
 export default function Landing({ onNext }: { onNext: () => void }) {
   const { currentUser, setCurrentUser, logout } = useAuth();
@@ -53,10 +53,18 @@ export default function Landing({ onNext }: { onNext: () => void }) {
             <SpeechBubbles scale={0.035} />
             </Canvas>
             <div className={styles.logo}>
-            <div className={styles.logoContainer}>
-                <Logo />
+                <div className={styles.logoContainer}>
+                    <Logo />
+                </div>
             </div>
-            </div>
+
+            <Text
+                className={styles.slogan}
+                position="relative"
+                bottom="140px"
+                textAlign="center">
+                Language learning made practical.
+            </Text>
         </div>
 
         {currentUser ? (
@@ -71,7 +79,7 @@ export default function Landing({ onNext }: { onNext: () => void }) {
             className={styles.siwg}
             zIndex="2"
             position="relative"
-            bottom="60px"
+            bottom="35px"
             >
             Start a new conversation
             </Button>

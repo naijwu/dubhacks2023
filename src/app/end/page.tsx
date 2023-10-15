@@ -42,12 +42,16 @@ export default function Home() {
       <Box position="absolute" top="0px" left="700px">
         <Box textAlign="center">
           <Image pt="50px" width="100%" src="./images/title.gif" alt="alt" />
-          <Text className="textHome">{`You've made it`}</Text>
+          <Text className="textHome"
+            position="relative"
+            bottom="110px">
+            {`You've made it!`}
+          </Text>
 
           <Box display="flex" flexDirection="column" alignItems="center">
             <Button
               className="homeButton newConversation"
-              marginTop="50px"
+              marginTop="25px"
               onClick={() => router.push("/")}
             >
               Start a new conversation
