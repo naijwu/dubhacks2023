@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import styles from "./../page.module.css";
 import Penguin from "@/components/Penguin";
@@ -10,56 +10,68 @@ import SpeechBubbles from "@/components/SpeechBubbles";
 import Logo from "@/components/Logo";
 import PenguinHome from "@/components/PenguinHome";
 import Dialog from "@/components/Dialog";
-import { extend } from '@react-three/fiber'
+import { extend } from "@react-three/fiber";
 // import logoGif from './images/title.gif'
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/utils/AuthContext";
 
 export default function Home() {
+  const router = useRouter();
 
-    const router = useRouter()
+  const { logout } = useAuth();
 
-    const {logout} = useAuth();
+  return (
+    <Box className="homePage">
+      <Box className="homePenguin">
+        <Canvas
+          style={{ height: "1000px" }}
+          onCreated={({ gl }) => {
+            gl.domElement.style.touchAction = "auto";
+            gl.domElement.style.userSelect = "auto";
+          }}
+        >
+          <PerspectiveCamera
+            makeDefault
+            position={[2, 0.5, 8]}
+            rotation={[0, 0, 0]}
+          />
+          <PenguinHome scale={0.013} s />
+        </Canvas>
+      </Box>
 
-    return (
-        <Box className="homePage">
-            <Box className="homePenguin">
-                <Canvas
-                style={{height: "1000px"}}
-                    onCreated={({ gl }) => {
-                    gl.domElement.style.touchAction = 'auto';
-                    gl.domElement.style.userSelect = 'auto';
-                    }}>
-                <PerspectiveCamera makeDefault position={[2, 0.5, 8]} rotation={[0, 0, 0]} />
-                    <PenguinHome scale={0.013}s/>
-                </Canvas>
-            </Box>
-            
-            <Box position="absolute"
-                top="0px" left="700px">
-                <Box textAlign="center">
-                    <Image width="100%" src="./images/title.gif"/>
-                    <Text className="textHome">
-                        {`You've made it`}
-                    </Text>
+      <Box position="absolute" top="0px" left="700px">
+        <Box textAlign="center">
+          <Image width="100%" src="./images/title.gif" />
+          <Text className="textHome">{`You've made it`}</Text>
 
-                    <Box display="flex" flexDirection="column" alignItems="center">
-                        <Button className="homeButton newConversation" marginTop="50px" onClick={()=>router.push('/')}>
-                            Start a new conversation
-                        </Button>
-                        <Text className="logOut" marginTop="15px" onClick={()=>{logout();router.push('/')}}>
-                            Log Out
-                        </Text>
-                    </Box>
-                </Box>
-                {/* <Image width="100%" src="./images/title.gif"/>
+          <Box display="flex" flexDirection="column" alignItems="center">
+            <Button
+              className="homeButton newConversation"
+              marginTop="50px"
+              onClick={() => router.push("/")}
+            >
+              Start a new conversation
+            </Button>
+            <Text
+              className="logOut"
+              marginTop="15px"
+              onClick={() => {
+                logout();
+                router.push("/");
+              }}
+            >
+              Log Out
+            </Text>
+          </Box>
+        </Box>
+        {/* <Image width="100%" src="./images/title.gif"/>
                 <Text>
                     Welcome back, Jae Wu
                 </Text>
 
                 <Button>Start a new conversation</Button>
                 <Button>View chat history</Button> */}
-            </Box>
-        </Box>
-    )
+      </Box>
+    </Box>
+  );
 }

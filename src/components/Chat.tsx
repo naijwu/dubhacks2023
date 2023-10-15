@@ -208,6 +208,19 @@ export default function Chat({
         <div ref={chatBottomRef}></div>
       </div>
 
+      {loading && (
+        <div className={styles.loadingContainer}>
+          <div className={styles.loadingDude}>
+            <Image
+              objectFit="cover"
+              fill={true}
+              alt="Loading"
+              src="/images/mascotLoading.gif"
+            />
+          </div>
+        </div>
+      )}
+
       <div className={styles.floatBottom}>
         <div className={styles.anchor}>
           <div className={styles.toggle} onClick={handleToggle}>
