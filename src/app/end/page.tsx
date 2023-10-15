@@ -12,8 +12,14 @@ import PenguinHome from "@/components/PenguinHome";
 import Dialog from "@/components/Dialog";
 import { extend } from '@react-three/fiber'
 // import logoGif from './images/title.gif'
+import { useRouter } from 'next/navigation'
+import { useAuth } from "@/utils/AuthContext";
 
 export default function Home() {
+
+    const router = useRouter()
+
+    const {logout} = useAuth();
 
     return (
         <Box className="homePage">
@@ -25,7 +31,7 @@ export default function Home() {
                     gl.domElement.style.userSelect = 'auto';
                     }}>
                 <PerspectiveCamera makeDefault position={[2, 0.5, 8]} rotation={[0, 0, 0]} />
-                    <PenguinHome scale={0.013}/>
+                    <PenguinHome scale={0.013}s/>
                 </Canvas>
             </Box>
             
@@ -34,17 +40,14 @@ export default function Home() {
                 <Box textAlign="center">
                     <Image width="100%" src="./images/title.gif"/>
                     <Text className="textHome">
-                        Welcome back, Jae Wu
+                        {`You've made it`}
                     </Text>
 
                     <Box display="flex" flexDirection="column" alignItems="center">
-                        <Button className="homeButton newConversation" marginTop="50px">
+                        <Button className="homeButton newConversation" marginTop="50px" onClick={()=>router.push('/')}>
                             Start a new conversation
                         </Button>
-                        <Button className="homeButton viewHistory" marginTop="15px">
-                            View chat history
-                        </Button>
-                        <Text className="logOut" marginTop="15px">
+                        <Text className="logOut" marginTop="15px" onClick={()=>{logout();router.push('/')}}>
                             Log Out
                         </Text>
                     </Box>
