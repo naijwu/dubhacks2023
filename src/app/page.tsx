@@ -15,8 +15,10 @@ import Setup from "@/components/Setup";
 import { AuthProvider, useAuth } from "@/utils/AuthContext";
 import { setupData } from "@/utils/types";
 import { Box, ChakraProvider, Flex } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter(); 
   const [currentScreen, setCurrentScreen] = useState<
     "landing" | "setup" | "chat" | "report"
   >("landing");
@@ -39,10 +41,8 @@ export default function Home() {
     } else if (currentScreen === "setup") {
       setCurrentScreen("chat");
     } else if (currentScreen === "chat") {
-      setCurrentScreen("report");
-    } else if (currentScreen == "report") {
-      setCurrentScreen("landing");
-    }
+      router.push('/end')
+    } 
   };
 
   return (
