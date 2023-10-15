@@ -1,12 +1,20 @@
 "use client";
 
+import { generate } from "@/utils/synthesis";
+import { useEffect, useState } from "react";
+import { useAudioRecorder } from "react-audio-voice-recorder";
+import styles from "./page.module.css";
+import OpenAI from "openai";
+import Penguin from "@/components/Penguin";
+import { Canvas } from "react-three-fiber";
+import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import Chat from "@/components/Chat";
 import Landing from "@/components/Landing";
 import Report from "@/components/Report";
 import Setup from "@/components/Setup";
 import { AuthProvider, useAuth } from "@/utils/AuthContext";
 import { setupData } from "@/utils/types";
-import { useState } from "react";
+// import { useState } from "react";
 
 export default function Home() {
   const [currentScreen, setCurrentScreen] = useState<'landing' | 'setup' | 'chat' | 'report'>('landing');
