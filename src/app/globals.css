@@ -102,6 +102,7 @@ audio {
 
 .homePage {
   overflow: hidden;
+  background-image: url("./../images/HomePage.svg");
 }
 
 .textHome {
