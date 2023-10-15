@@ -58,14 +58,7 @@ export default function Chat({
   }
 
   // takes user response, sends it to openai, gets response and updates message
-  const generateResponses = async (input: string) => {
-    const userInput = {
-      role: "user",
-      content: input,
-    };
-
-    const updatedMessages = JSON.parse(JSON.stringify(messages));
-    updatedMessages.push(userInput);
+  const generateResponses = async (updatedMessages: any[]) => {
     setRecommended(``);
 
     const chatCompletion = await openai.chat.completions.create({
@@ -114,15 +107,24 @@ export default function Chat({
         body: formData,
       }
     );
-
     const data = await response.json();
 
     if (!data.text) {
         setLoading(false)
         return
     }
+
+
+    const userInput = {
+        role: "user",
+        content: data.text,
+    };
+  
+    const updatedMessages = JSON.parse(JSON.stringify(messages));
+    updatedMessages.push(userInput);
+    setMessages(updatedMessages)
     
-    await generateResponses(data.text);
+    await generateResponses(updatedMessages);
   }
 
   const [recording, setRecording] = useState<boolean>(false);

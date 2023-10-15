@@ -116,6 +116,7 @@
 .text.right {
   text-align: left;
   align-self: flex-end;
+  color: var(--color-green);
 }
 
 .text.left {
