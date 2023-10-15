@@ -9,11 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-three/drei": "^9.88.2",
+    "@splinetool/loader": "^0.9.481",
+    "@splinetool/r3f-spline": "^1.0.2",
     "next": "13.5.4",
     "openai": "^4.12.1",
-    "react": "^18",
+    "react": "^18.2.0",
     "react-audio-voice-recorder": "^2.2.0",
-    "react-dom": "^18"
+    "react-dom": "^18.2.0",
+    "react-three-fiber": "^6.0.13",
+    "spline": "^0.0.0",
+    "three": "^0.157.0"
   },
   "devDependencies": {
     "@types/node": "^20",

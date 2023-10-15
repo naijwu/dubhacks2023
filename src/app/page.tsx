@@ -5,6 +5,9 @@ import { useEffect, useState } from "react";
 import { useAudioRecorder } from "react-audio-voice-recorder";
 import styles from "./page.module.css";
 import OpenAI from "openai";
+import Penguin from "@/components/Penguin";
+import { Canvas } from "react-three-fiber";
+import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 
 export default function Home() {
   const { startRecording, stopRecording, recordingBlob } = useAudioRecorder();
@@ -133,6 +136,20 @@ export default function Home() {
         <div onClick={doSynthesis}>
           test synthesis
         </div>
+
+        <Canvas 
+          style={{ height: '1000px',
+            background: 'transparent' }}
+            onCreated={({ gl }) => {
+              gl.domElement.style.touchAction = 'auto';
+              gl.domElement.style.userSelect = 'auto';
+            }}
+            >
+          <PerspectiveCamera makeDefault position={[0, -1, 8]} />
+          <Penguin scale={0.005}/>
+          {/* <OrbitControls enableRotate={false}
+            enableZoom={false}/> */}
+        </Canvas>
       </div>
     </div>
   );
