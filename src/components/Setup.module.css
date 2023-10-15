@@ -15,15 +15,15 @@
   position: relative;
   height: 100%;
   width: 100%;
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
 .blurOne {
   position: absolute;
-  transform: translateY(-65%);
+  transform: translateY(-15%);
 }
 
 .blurTwo {
   position: absolute;
-  transform: translateY(10%) translateX(12%);
+  transform: translateY(5%) translateX(10%);
 }
