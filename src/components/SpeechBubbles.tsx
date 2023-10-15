@@ -9,7 +9,7 @@ import { useFrame } from 'react-three-fiber';
 
 export default function SpeechBubbles({ ...props }) {
 
-    const group = useRef();
+    const group = useRef<any>();
 
     useFrame(() => {
         if (group.current) {

@@ -4,7 +4,7 @@ export type language = 'en' | 'kr' | 'fr' | 'cn'
 export type languagePayload = {
     plaintext: string,
     code: language
-  }
+  } | undefined
 
 export type setupData = {
     language: languagePayload,
