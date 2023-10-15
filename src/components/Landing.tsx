@@ -1,7 +1,7 @@
 import Logo from "./Logo";
 import styles from "./Landing.module.css";
 import Google from "./Google";
-import { Canvas } from "react-three-fiber";
+import { Canvas, useFrame } from "react-three-fiber";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import Penguin from "./Penguin";
 import SpeechBubbles from "./SpeechBubbles";
@@ -43,11 +43,9 @@ export default function Landing({ onNext }: { onNext: () => void }) {
                     gl.domElement.style.userSelect = 'auto';
                     }}>
                     <PerspectiveCamera makeDefault position={[0, 0, 8]} rotation={[0, 0, 0]} />
-                    {/* <Penguin scale={0.005}/> */}
                     <SpeechBubbles scale={0.035}/>
-                    {/* <PenguinBBQ/> */}
-                    {/* <OrbitControls/> */}
                 </Canvas>
+                
                 <div className={styles.logo}>
                     <div className={styles.logoContainer}>
                         <Logo />
