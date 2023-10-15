@@ -23,10 +23,7 @@ export default function Home() {
 
   // default values
   const [setupData, setSetupData] = useState<setupData>({
-    language: {
-      plaintext: "english",
-      code: "en",
-    },
+    language: undefined,
     difficulty: "beginner",
     situation: {
       user: 'customer',
@@ -49,7 +46,6 @@ export default function Home() {
   return (
     <AuthProvider>
       <ChakraProvider>
-        <Flex height="100vh" alignItems="center" justifyContent="center">
           {currentScreen === "report" && chatData ? (
             // report
             <Report data={chatData} onNext={handleNext} />
@@ -66,7 +62,6 @@ export default function Home() {
           ) : (
             <Landing onNext={handleNext} />
           )}
-        </Flex>
       </ChakraProvider>
     </AuthProvider>
   );

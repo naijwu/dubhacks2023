@@ -1,4 +1,4 @@
-import { Box, Button, Select, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Select, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import ProgressBar from "./ProgressBar";
 import styles from "./Setup.module.css";
@@ -86,23 +86,22 @@ export default function Setup({
   };
 
   return (
-    <Box
-      style={{
-        textAlign: "-webkit-center",
-      }}
-      w="100%"
-    >
-      {/* <div>
-        Choosing {stage} (
-        {stage === "language" ? "1" : stage === "difficulty" ? "2" : "3"})
-      </div> */}
+    <div style={{
+      minHeight: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center'
+    }}>
       {stage === "language" && (
-        <Box
-        // bgColor="pink"
-        >
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}>
           <ProgressBar page={1} />
           <Box mt="50px" w="fit-content">
-            <Text fontSize="40px" fontWeight="bold" color="white">
+            <Text fontSize="40px" fontWeight="bold" color="white" textAlign="center">
               Practice language:
             </Text>
             <Select
@@ -118,7 +117,7 @@ export default function Setup({
               ))}
             </Select>
           </Box>
-        </Box>
+        </div>
       )}
       {stage === "difficulty" && (
         <div>
@@ -159,18 +158,18 @@ export default function Setup({
         </div>
       )}
 
-      <Box pt="160px" justifyContent="center" className={styles.prevNext}>
-        {stage !== "language" && <div onClick={handlePrev}>previous</div>}
-        <Button
-          isDisabled={data.language === undefined}
-          w="200px"
-          bgGradient="linear(to-b, #C2F9C9, #7BC6C1)"
-          onClick={handleNext}
-          fontSize="20px"
-        >
-          Continue
-        </Button>
-      </Box>
-    </Box>
+        <Box pt="160px" justifyContent="center" className={styles.prevNext}>
+          {stage !== "language" && <div onClick={handlePrev}>previous</div>}
+          <Button
+            isDisabled={data.language === undefined}
+            w="200px"
+            bgGradient="linear(to-b, #C2F9C9, #7BC6C1)"
+            onClick={handleNext}
+            fontSize="20px"
+          >
+            Continue
+          </Button>
+        </Box>
+      </div>
   );
 }

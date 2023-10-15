@@ -52,10 +52,6 @@ export default function Landing({ onNext }: { onNext: () => void }) {
                     </div>
                 </div>
             </div>
-            <div className={styles.siwg}>
-                <Google />
-                Continue with Google
-            </div>
 
       {currentUser ? (
         <div>
