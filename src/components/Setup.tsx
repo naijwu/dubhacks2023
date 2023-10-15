@@ -1,3 +1,5 @@
+import Blur from "@/images/Blur";
+import BlurOdd from "@/images/BlurOdd";
 import {
   Box,
   Button,
@@ -14,7 +16,8 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import ProgressBar from "./ProgressBar";
-import styles from "./Setup.module.css";
+// import styles from "./Setup.module.css";
+import styles from "./Chat.module.css";
 
 export default function Setup({
   data,
@@ -125,6 +128,16 @@ export default function Setup({
         alignItems: "center",
       }}
     >
+      <div className={styles.blursContainer}>
+        <div className={styles.blursInner}>
+          <div className={styles.blurOne}>
+            <Blur />
+          </div>
+          <div className={styles.blurTwo}>
+            <BlurOdd />
+          </div>
+        </div>
+      </div>
       {stage === "language" && (
         <div
           style={{
@@ -261,12 +274,12 @@ export default function Setup({
         </div>
       )}
 
-      <Box
+      <HStack
         bottom="135px"
         position="absolute"
         pt="160px"
         justifyContent="center"
-        className={styles.prevNext}
+        // className={styles.prevNext}
       >
         {stage !== "language" && (
           <Button
@@ -290,7 +303,7 @@ export default function Setup({
         >
           {stage === "situation" ? "Start Conversation" : "Continue"}
         </Button>
-      </Box>
+      </HStack>
     </div>
   );
 }
