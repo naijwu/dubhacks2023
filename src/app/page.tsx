@@ -1,6 +1,7 @@
 "use client";
 
 import Chat from "@/components/Chat";
+import Landing from "@/components/Landing";
 import Report from "@/components/Report";
 import Setup from "@/components/Setup";
 import { setupData } from "@/utils/types";
@@ -8,7 +9,7 @@ import { useState } from "react";
 
 export default function Home() {
 
-  const [currentScreen, setCurrentScreen] = useState<'setup' | 'chat' | 'report'>('setup');
+  const [currentScreen, setCurrentScreen] = useState<'landing' | 'setup' | 'chat' | 'report'>('landing');
 
   // default values
   const [setupData, setSetupData] = useState<setupData>({
@@ -22,7 +23,9 @@ export default function Home() {
   const [chatData, setChatData] = useState<any>();
 
   const handleNext = () => {
-    if (currentScreen === 'setup') {
+    if (currentScreen === 'landing') {
+      setCurrentScreen('setup');
+    } else if (currentScreen === 'setup') {
       setCurrentScreen('chat');
     } else if (currentScreen === 'chat') {
       setCurrentScreen('report');
@@ -35,8 +38,10 @@ export default function Home() {
   ) : (currentScreen === 'chat' && setupData) ? (
     // convo
     <Chat setup={setupData} setData={setChatData} onNext={handleNext} />
-  ) : (
+  ) : (currentScreen === 'setup') ? (
     // setup
     <Setup data={setupData} setData={setSetupData} onNext={handleNext} />
+  ) : (
+    <Landing />
   )
 }
