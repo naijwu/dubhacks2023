@@ -156,143 +156,145 @@ export default function Setup({
         }}>
         <div
           style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            position: "relative",
+            width: "300%",
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1fr",
           }}
         >
-          <Box mt="50px" w="fit-content">
-            <Text
-              fontSize="40px"
-              fontWeight="bold"
-              color="white"
-              textAlign="center"
-            >
-              Practice language:
-            </Text>
-            <Select
-              mt="10px"
-              bgColor="white"
-              w="430px"
-              fontSize="20px"
-              onChange={handleLanguage}
-              defaultValue="Select language"
-            >
-              {availableLanguages.map((language) => (
-                <option key={language}>{language}</option>
-              ))}
-            </Select>
-          </Box>
-        </div>
-
-        <div>
-          <VStack color="white">
-            <Text mt="25px" fontSize="37px" fontWeight="bold">
-              Select level of difficulty:
-            </Text>
-            <HStack mt="35px" spacing="30px" alignItems="baseline">
-              {difficultiesUI.map(({ title, description }, key) => {
-                return (
-                  <Flex
-                    w="260px"
-                    textAlign="center"
-                    flexDirection="column"
-                    key={key}
-                  >
-                    <Text fontSize="30px" fontWeight="bold">
-                      {title}
-                    </Text>
-                    <Text fontSize="13px">{description}</Text>
-                  </Flex>
-                );
-              })}
-            </HStack>
-            <Slider
-              mt="20px"
-              min={0}
-              max={2}
-              step={1}
-              w="75%"
-              value={difficulties.indexOf(data.difficulty)}
-              onChange={handleDifficulty}
-            >
-              <SliderTrack
-                height="18px"
-                borderRadius="10px"
-                border="3px solid white"
-                bg="linear-gradient(to right, #DD8CDC, #969FF4)"
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Box mt="50px" w="fit-content">
+              <Text
+                fontSize="40px"
+                fontWeight="bold"
+                color="white"
+                textAlign="center"
               >
-                <Box position="relative" right={10} />
-                <SliderFilledTrack bg="transparent" />
-              </SliderTrack>
-              <SliderThumb
-                boxSize={8}
-                border="3px solid white"
-                bg="linear-gradient(to right, #80889F, #A8ACB7)"
-              />
-            </Slider>
-          </VStack>
-        </div>
-        
-        <div>
-          <VStack mt="70px" fontSize="25px" color="white">
-            <Text>
-              I am a{" "}
-              <input
-                style={{
-                  margin: "0px 3px",
-                  background: "transparent",
-                  border: "2px solid white",
-                  textAlign: "center",
-                  width: "200px",
-                  borderRadius: "7px",
-                }}
-                value={data?.situation?.user || ""}
-                onChange={(e) => handleSituation("user", e.target.value)}
-              />
-              ,
-            </Text>
-            <Text mt="30px">
-              I am talking to a{" "}
-              <input
-                style={{
-                  margin: "0px 3px",
-                  background: "transparent",
-                  border: "2px solid white",
-                  textAlign: "center",
-                  width: "200px",
-                  borderRadius: "7px",
-                }}
-                value={data?.situation?.assistant || ""}
-                onChange={(e) => handleSituation("assistant", e.target.value)}
-              />{" "}
-              and trying to{" "}
-              <input
-                style={{
-                  margin: "0px 3px",
-                  background: "transparent",
-                  border: "2px solid white",
-                  textAlign: "center",
-                  width: "200px",
-                  borderRadius: "7px",
-                }}
-                value={data?.situation?.action || ""}
-                onChange={(e) => handleSituation("action", e.target.value)}
-              />
-            </Text>
-          </VStack>
-        </div>
-        
-      </div>
-      </div>
+                Practice language:
+              </Text>
+              <Select
+                mt="10px"
+                bgColor="white"
+                w="430px"
+                fontSize="20px"
+                onChange={handleLanguage}
+                defaultValue="Select language"
+              >
+                {availableLanguages.map((language) => (
+                  <option key={language}>{language}</option>
+                ))}
+              </Select>
+            </Box>
+          </div>
 
-      <HStack
-        bottom="135px"
-        position="absolute"
-        pt="160px"
-        justifyContent="center"
-        // className={styles.prevNext}
-      >
+          <div>
+            <VStack color="white">
+              <Text mt="25px" fontSize="37px" fontWeight="bold">
+                Select level of difficulty:
+              </Text>
+              <HStack mt="35px" spacing="30px" alignItems="baseline">
+                {difficultiesUI.map(({ title, description }, key) => {
+                  return (
+                    <Flex
+                      w="260px"
+                      textAlign="center"
+                      flexDirection="column"
+                      key={key}
+                    >
+                      <Text fontSize="30px" fontWeight="bold">
+                        {title}
+                      </Text>
+                      <Text fontSize="13px">{description}</Text>
+                    </Flex>
+                  );
+                })}
+              </HStack>
+              <Slider
+                mt="20px"
+                min={0}
+                max={2}
+                step={1}
+                w="75%"
+                value={difficulties.indexOf(data.difficulty)}
+                onChange={handleDifficulty}
+              >
+                <SliderTrack
+                  height="18px"
+                  borderRadius="10px"
+                  border="3px solid white"
+                  bg="linear-gradient(to right, #DD8CDC, #969FF4)"
+                >
+                  <Box position="relative" right={1} />
+                  <SliderFilledTrack bg="transparent" />
+                </SliderTrack>
+                <SliderThumb
+                  boxSize={8}
+                  border="3px solid white"
+                  bg="linear-gradient(to right, #80889F, #A8ACB7)"
+                />
+              </Slider>
+            </VStack>
+          </div>
+
+          <div>
+            <VStack mt="70px" fontSize="25px" color="white">
+              <Text>
+                I am a{" "}
+                <input
+                  style={{
+                    margin: "0px 3px",
+                    background: "transparent",
+                    border: "2px solid white",
+                    textAlign: "center",
+                    width: "200px",
+                    borderRadius: "7px",
+                  }}
+                  value={data?.situation?.user || ""}
+                  onChange={(e) => handleSituation("user", e.target.value)}
+                />
+                ,
+              </Text>
+              <Text mt="30px">
+                I am talking to a{" "}
+                <input
+                  style={{
+                    margin: "0px 3px",
+                    background: "transparent",
+                    border: "2px solid white",
+                    textAlign: "center",
+                    width: "200px",
+                    borderRadius: "7px",
+                  }}
+                  value={data?.situation?.assistant || ""}
+                  onChange={(e) => handleSituation("assistant", e.target.value)}
+                />{" "}
+                and trying to{" "}
+                <input
+                  style={{
+                    margin: "0px 3px",
+                    background: "transparent",
+                    border: "2px solid white",
+                    textAlign: "center",
+                    width: "200px",
+                    borderRadius: "7px",
+                  }}
+                  value={data?.situation?.action || ""}
+                  onChange={(e) => handleSituation("action", e.target.value)}
+                />
+              </Text>
+            </VStack>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <HStack bottom="135px" position="absolute" justifyContent="center">
         {stage !== "language" && (
           <Button
             bgColor="transparent"
@@ -318,4 +320,4 @@ export default function Setup({
       </HStack>
     </div>
   );
-}
+        }
