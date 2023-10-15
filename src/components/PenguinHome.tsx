@@ -11,21 +11,6 @@ import { useFrame } from 'react-three-fiber';
 
 export default function PenguinHome({ ...props }) {
 
-    // const group = useRef();
-    // const [positionY, setPositionY] = useState(0);
-    // const amplitude = 1;
-    // const frequency = 6;
-
-    // useFrame(() => {
-    //     if (group.current) {
-    //       group.current.position.y = positionY + amplitude * Math.sin(frequency * group.current.rotation.y);
-    //       // group.current.rotation.y += 0.0001; // Adjust the rotation speed as needed
-    //       // group.current.rotation.y += 0.000; // Adjust the rotation speed as needed
-
-    //       // group.current.position.y = positionY + amplitude * Math.sin(frequency * group.current.rotation.y);
-    //     }
-    //   });
-
     const parentGroup = useRef();
     const [positionY, setPositionY] = useState(0);
     const amplitude = 0.1;
