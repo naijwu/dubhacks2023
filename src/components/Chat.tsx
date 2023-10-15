@@ -9,6 +9,7 @@ import WhiteMic from "./WhiteMic";
 import Image from "next/image";
 import BlurOdd from "@/images/BlurOdd";
 import Blur from "@/images/Blur";
+import Typist from 'react-typist';
 
 export default function Chat({
   setup,
@@ -49,7 +50,7 @@ export default function Chat({
       messages: [
         {
           role: "system",
-          content: `A ${setup.situation.user} is trying to ${setup.situation.action} from a ${setup.situation.assistant}. They told by ${setup.situation.assistant}: "${lastResponse}". Respond to this message with a recommended response the ${setup.situation.user} could say word for word to the ${setup.situation.assistant}, in the ${setup.language.plaintext} language, and in two sentences max.`,
+          content: `A ${setup.situation.user} is trying to ${setup.situation.action} from a ${setup.situation.assistant}. They told by ${setup.situation.assistant}: "${lastResponse}". Respond to this message with a recommended response the ${setup.situation.user} could say word for word to the ${setup.situation.assistant}, in the ${setup.language.plaintext} language, and in two sentences max and no translation provided.`,
         },
       ],
       model: "gpt-3.5-turbo",
@@ -186,42 +187,41 @@ export default function Chat({
         </div>
 
       <div className={styles.history}>
-        {messages?.map(
+        {messages?.length > 1 ? messages?.map(
           (message, index) =>
             index > 0 && (
               <div className={`${styles.text} ${messages.length - 2 <= index ? styles.current : ''} ${message.role == "user" ? styles.right : styles.left}`} key={index}>
+                
                 {message.content}
               </div>
             )
+        ) : (
+            <div className={styles.conversationStart}>
+                Start the conversation!
+            </div>
         )}
+        <div className={styles.bottomHistoryPad}></div>
         <div ref={chatBottomRef}></div>
       </div>
 
       <div className={styles.floatBottom}>
-        <div className={styles.toggle}>
             <div className={styles.anchor}>
-                <div className={styles.anchorInner}>
-                        {!loadingHelp && recommended ? (
-                            <div className={styles.helper}>
-                                Possible response: {recommended}
-                            </div>
-                            ) : (
-                            <></>
-                        )}
-                    <div onClick={handleToggle}>
+                    <div className={styles.toggle} onClick={handleToggle}>
                         {!loading
                             ? recording
                             ? <div className={styles.recordingButton}><WhiteMic /></div>
                             : <div className={styles.recordButton}><WhiteMic /></div>
-                            : <div className={styles.recordButton}><Image objectFit="cover" fill={true} alt="Loading" src="/Avatar.png" /></div>}
+                            : <div className={styles.loadingButton}><Image objectFit="cover" fill={true} alt="Loading" src="/Avatar.png" /></div>}
                     </div>
-                </div>
+                            <div className={`${styles.helper} ${!loadingHelp && recommended ? styles.show : ''}`}>
+                                Possible response: {recommended}
+                            </div>
             </div>
-        </div>
         <div className={styles.exit} onClick={handleQuit}>
           Finish
         </div>
       </div>
+
     </div>
   );
 }

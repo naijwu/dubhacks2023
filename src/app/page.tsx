@@ -40,6 +40,8 @@ export default function Home() {
       setCurrentScreen("chat");
     } else if (currentScreen === "chat") {
       setCurrentScreen("report");
+    } else if (currentScreen == "report") {
+      setCurrentScreen("landing");
     }
   };
 

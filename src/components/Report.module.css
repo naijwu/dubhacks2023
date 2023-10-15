@@ -1,0 +1,19 @@
+.header {
+  font-size: 3rem;
+  color: var(--color-cream);
+  font-weight: 500;
+  font-family: "Montserrat", sans-serif;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.buttons {
+  display: flex;
+}

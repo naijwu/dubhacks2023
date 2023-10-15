@@ -22,11 +22,24 @@
   transform: translateY(10%) translateX(12%);
 }
 
-.exit {
+.floatBottom {
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;
+  bottom: 0;
+  right: 0;
+  padding-bottom: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  z-index: 1;
+}
+
+.exit {
   background-color: var(--color-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   cursor: pointer;
   user-select: none;
@@ -39,25 +52,16 @@
   text-align: center;
 }
 
-.toggle {
-  position: fixed;
-  bottom: 2rem;
-  left: 2rem;
-}
-
 .recordButton {
   height: var(--circular-button-size);
   min-width: var(--circular-button-size);
   min-height: var(--circular-button-size);
   width: var(--circular-button-size);
   display: flex;
-  border-radius: 100%;
+  border-radius: 8px;
   align-items: center;
   justify-content: center;
-  position: relative;
-
   cursor: pointer;
-  position: fixed;
 
   background: linear-gradient(
     to bottom right,
@@ -80,11 +84,10 @@
   min-height: var(--circular-button-size);
   display: flex;
   align-items: center;
-  border-radius: 100%;
+  border-radius: 8px;
   justify-content: center;
 
   cursor: pointer;
-  position: fixed;
 
   background: linear-gradient(
     to bottom right,
@@ -93,35 +96,53 @@
   );
 }
 
-.anchor {
-  position: fixed;
-  bottom: 2rem;
-  left: 2rem;
+.loadingButton {
+  height: var(--circular-button-size);
+  width: var(--circular-button-size);
+  min-width: var(--circular-button-size);
   min-height: var(--circular-button-size);
-}
-.anchorInner {
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  justify-content: center;
   position: relative;
+}
+
+.anchor {
   min-height: var(--circular-button-size);
+  display: flex;
+  align-items: center;
+}
+
+.toggle {
+  z-index: 1;
 }
 
 .helper {
-  position: absolute;
   background-color: #555a65;
-  max-width: 70vw;
-  min-width: 40vw;
+  max-width: 80vw;
   height: 100%;
-  top: 0;
+
   display: flex;
   align-items: center;
   box-sizing: border-box;
-  margin-left: calc(var(--circular-button-size) / 2);
-  padding-left: calc(calc(var(--circular-button-size) / 2) + 0.8rem);
+  margin-left: -1rem;
+  padding-left: calc(calc(var(--circular-button-size) / 2) + 0.5rem);
   padding-right: 0.8rem;
-  padding-top: 0.8rem;
-  padding-bottom: 0.8rem;
   border-radius: 10px;
   color: white;
   font-weight: 600;
+
+  transition: all 0.13s ease;
+
+  visibility: hidden;
+  transform: translateY(10px);
+  opacity: 0;
+}
+.helper.show {
+  visibility: visible;
+  transform: translateY(0);
+  opacity: 1;
 }
 .recommendation {
   position: absolute;
@@ -134,8 +155,22 @@
   display: flex;
   flex-direction: column;
   padding: 2rem 3rem;
-  padding-bottom: 20vh;
   gap: 0.75rem;
+}
+
+.bottomHistoryPad {
+  height: 15vh;
+}
+.conversationStart {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-cream);
+  opacity: 0.7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 5rem;
+  user-select: none;
 }
 
 .text {

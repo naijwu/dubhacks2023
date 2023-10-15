@@ -16,6 +16,7 @@
     "@react-three/drei": "^9.88.2",
     "@splinetool/loader": "^0.9.481",
     "@splinetool/r3f-spline": "^1.0.2",
+    "@types/react-typist": "^2.0.4",
     "firebase": "^10.5.0",
     "framer-motion": "^10.16.4",
     "next": "13.5.4",
@@ -24,6 +25,7 @@
     "react-audio-voice-recorder": "^2.2.0",
     "react-dom": "^18.2.0",
     "react-three-fiber": "^6.0.13",
+    "react-typist": "^2.0.5",
     "spline": "^0.0.0",
     "three": "^0.157.0"
   },
