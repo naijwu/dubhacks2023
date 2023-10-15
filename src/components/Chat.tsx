@@ -5,25 +5,26 @@ import { useEffect, useState } from "react";
 import { useAudioRecorder } from "react-audio-voice-recorder";
 import styles from "./Chat.module.css";
 import { openai } from "@/utils/openai";
+import ProgressBar from "./ProgressBar";
 
 export default function Chat({
-    setup,
-    setData,
-    onNext
+  setup,
+  setData,
+  onNext,
 }: {
-    setup: any;
-    setData: any;
-    onNext: () => void;
+  setup: any;
+  setData: any;
+  onNext: () => void;
 }) {
-    const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-    const { startRecording, stopRecording, recordingBlob } = useAudioRecorder();
-    const [messages, setMessages] = useState<any[]>([
-        {
-            role: "system",
-            content: `You are going to help the user learn new languages by role playing real-world conversations. You are a ${setup.situation.assistant}. They are a ${setup.situation.user}. They are trying to ${setup.situation.action}. You'll be speaking in ${setup.language.plaintext} with the user. The user has ${setup.difficulty} skill of that language: adjust the complexity of your responses to be the same as their language skill. Start the conversation.`
-        },
-    ]);
+  const { startRecording, stopRecording, recordingBlob } = useAudioRecorder();
+  const [messages, setMessages] = useState<any[]>([
+    {
+      role: "system",
+      content: `You are going to help the user learn new languages by role playing real-world conversations. You are a ${setup.situation.assistant}. They are a ${setup.situation.user}. They are trying to ${setup.situation.action}. You'll be speaking in ${setup.language.plaintext} with the user. The user has ${setup.difficulty} skill of that language: adjust the complexity of your responses to be the same as their language skill. Start the conversation.`,
+    },
+  ]);
 
   // debug function
   function addAudioElement(blob: any, autoplay = false) {
@@ -33,26 +34,26 @@ export default function Chat({
     audio.controls = true;
     audio.autoplay = autoplay;
     document.body.appendChild(audio);
-  };
+  }
 
-  const [recommended, setRecommended] = useState<string>('');
+  const [recommended, setRecommended] = useState<string>("");
   const [loadingHelp, setLoadingHelp] = useState<boolean>(false);
 
   async function fetchRecommendedResponses(lastResponse: string) {
-    if (loadingHelp) return
-    setLoadingHelp(true)
+    if (loadingHelp) return;
+    setLoadingHelp(true);
     const chatCompletion = await openai.chat.completions.create({
       messages: [
         {
-            role: "system",
-            content: `A ${setup.situation.user} is trying to ${setup.situation.action} from a ${setup.situation.assistant}. They told by ${setup.situation.assistant}: "${lastResponse}". Respond to this message with a recommended response the ${setup.situation.user} could say word for word to the ${setup.situation.assistant}, in the ${setup.language.plaintext} language.`
-        }
+          role: "system",
+          content: `A ${setup.situation.user} is trying to ${setup.situation.action} from a ${setup.situation.assistant}. They told by ${setup.situation.assistant}: "${lastResponse}". Respond to this message with a recommended response the ${setup.situation.user} could say word for word to the ${setup.situation.assistant}, in the ${setup.language.plaintext} language.`,
+        },
       ],
       model: "gpt-3.5-turbo",
     });
-    
-    setRecommended(chatCompletion.choices[0].message.content || '');
-    setLoadingHelp(false)
+
+    setRecommended(chatCompletion.choices[0].message.content || "");
+    setLoadingHelp(false);
   }
 
   // takes user response, sends it to openai, gets response and updates message
@@ -64,7 +65,7 @@ export default function Chat({
 
     const updatedMessages = JSON.parse(JSON.stringify(messages));
     updatedMessages.push(userInput);
-    setRecommended(``)
+    setRecommended(``);
 
     const chatCompletion = await openai.chat.completions.create({
       messages: updatedMessages,
@@ -75,18 +76,23 @@ export default function Chat({
     setMessages(updatedMessages);
 
     // last
-    const blob = await generate(chatCompletion.choices[0].message.content || '', setup.language.code);
+    const blob = await generate(
+      chatCompletion.choices[0].message.content || "",
+      setup.language.code
+    );
     addAudioElement(blob, true);
 
     setLoading(false);
 
     // get recommended response
-    await fetchRecommendedResponses(chatCompletion.choices[0].message.content || '')
+    await fetchRecommendedResponses(
+      chatCompletion.choices[0].message.content || ""
+    );
   };
 
   async function handleTranscription(blob: any) {
-    if (loading) return
-    setLoading(true)
+    if (loading) return;
+    setLoading(true);
 
     // audio file -> openAI whisper -> text
     const formData = new FormData();
@@ -147,22 +153,36 @@ export default function Chat({
 
   return (
     <div className={styles.container}>
+      <ProgressBar page={2} />
       <div className={styles.history}>
-        {messages?.map((message, index) => index > 0 && (
-          <div key={index}>
-            {`${message.role == 'user' ? '👤' : '🤖'}`} {message.content}
-          </div>
-        ))}
+        {messages?.map(
+          (message, index) =>
+            index > 0 && (
+              <div key={index}>
+                {`${message.role == "user" ? "👤" : "🤖"}`} {message.content}
+              </div>
+            )
+        )}
       </div>
 
       <div className={styles.floatBottom}>
-        {loadingHelp ? 'loading recommended' : recommended ? `Possible response: ${recommended}` : <></>}
+        {loadingHelp ? (
+          "loading recommended"
+        ) : recommended ? (
+          `Possible response: ${recommended}`
+        ) : (
+          <></>
+        )}
 
         <div className={styles.toggle} onClick={handleToggle}>
-          {!loading ? recording ? "Stop speaking" : "Start speaking" : "loading..."}
+          {!loading
+            ? recording
+              ? "Stop speaking"
+              : "Start speaking"
+            : "loading..."}
         </div>
         <div className={styles.exit} onClick={handleQuit}>
-            Quit
+          Quit
         </div>
       </div>
     </div>
