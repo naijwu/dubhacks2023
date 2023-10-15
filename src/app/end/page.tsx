@@ -31,7 +31,7 @@ export default function Home() {
                     gl.domElement.style.userSelect = 'auto';
                     }}>
                 <PerspectiveCamera makeDefault position={[2, 0.5, 8]} rotation={[0, 0, 0]} />
-                    <PenguinHome scale={0.013}/>
+                    <PenguinHome scale={0.013}s/>
                 </Canvas>
             </Box>
             

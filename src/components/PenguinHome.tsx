@@ -11,26 +11,24 @@ import { useFrame } from 'react-three-fiber';
 
 export default function PenguinHome({ ...props }) {
 
-    const group = useRef<any>();
+    const parentGroup = useRef();
     const [positionY, setPositionY] = useState(0);
-    const amplitude = 1;
-    const frequency = 6;
+    const amplitude = 0.1;
+    const frequency = 1.2;
 
     useFrame(() => {
-        if (group.current) {
-          group.current.position.y = positionY + amplitude * Math.sin(frequency * group.current.rotation.y);
-          // group.current.rotation.y += 0.0001; // Adjust the rotation speed as needed
-        //   group.current.rotation.y += 0.000; // Adjust the rotation speed as needed
-
-            // group.current.position.y = positionY + amplitude * Math.sin(frequency * group.current.rotation.y);
-        }
-      });
+      if (parentGroup.current) {
+        const time = performance.now() * 0.001;
+        const yPos = amplitude * Math.sin(frequency * time); // Calculate Y position based on a sine wave
+        parentGroup.current.position.y = yPos;
+      }
+    });
 
   const { nodes, materials } = useSpline('https://prod.spline.design/OejkXBqgHamF0hHE/scene.splinecode')
   return (
     <>
       {/* <color attach="background" args={['#74757a']} /> */}
-      <group ref={group} {...props} dispose={null}>
+      <group ref={parentGroup} {...props} dispose={null}>
         <scene name="Scene 1" rotation={[0, Math.PI/3.7, 0]}>
           <group name="Penguin">
             <group name="ChefHat" position={[0.83, 200.84, -35.76]}>
