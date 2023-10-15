@@ -7,6 +7,8 @@ import styles from "./Chat.module.css";
 import { openai } from "@/utils/openai";
 import WhiteMic from "./WhiteMic";
 import Image from "next/image";
+import BlurOdd from "@/images/BlurOdd";
+import Blur from "@/images/Blur";
 
 export default function Chat({
   setup,
@@ -172,6 +174,17 @@ export default function Chat({
 
   return (
     <div className={styles.container}>
+        <div className={styles.blursContainer}>
+            <div className={styles.blursInner}>
+                <div className={styles.blurOne}>
+                    <Blur />
+                </div>
+                <div className={styles.blurTwo}>
+                    <BlurOdd />
+                </div>
+            </div>
+        </div>
+
       <div className={styles.history}>
         {messages?.map(
           (message, index) =>
