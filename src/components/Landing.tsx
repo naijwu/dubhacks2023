@@ -1,6 +1,10 @@
 import Logo from "./Logo";
 import styles from "./Landing.module.css";
 import Google from "./Google";
+import { Canvas } from "react-three-fiber";
+import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
+import Penguin from "./Penguin";
+import SpeechBubbles from "./SpeechBubbles";
 import { useAuth } from "@/utils/AuthContext";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "@/utils/config";
@@ -29,12 +33,29 @@ export default function Landing({ onNext }: { onNext: () => void }) {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.logo}>
-        <div className={styles.logoContainer}>
-          <Logo />
-        </div>
-      </div>
+        <div className={styles.container}>
+            <div className={styles.hero}>
+                <Canvas 
+                    className={styles.animation}
+                    onCreated={({ gl }) => {
+                    gl.domElement.style.touchAction = 'auto';
+                    gl.domElement.style.userSelect = 'auto';
+                    }}>
+                    <PerspectiveCamera makeDefault position={[0, 0, 8]} rotation={[0, 0, 0]} />
+                    {/* <Penguin scale={0.005}/> */}
+                    <SpeechBubbles scale={0.035}/>
+                    {/* <OrbitControls/> */}
+                </Canvas>
+                <div className={styles.logo}>
+                    <div className={styles.logoContainer}>
+                        <Logo />
+                    </div>
+                </div>
+            </div>
+            <div className={styles.siwg}>
+                <Google />
+                Continue with Google
+            </div>
 
       {currentUser ? (
         <div>

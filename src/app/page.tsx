@@ -1,5 +1,13 @@
 "use client";
 
+import { generate } from "@/utils/synthesis";
+import { useEffect, useState } from "react";
+import { useAudioRecorder } from "react-audio-voice-recorder";
+import styles from "./page.module.css";
+import OpenAI from "openai";
+import Penguin from "@/components/Penguin";
+import { Canvas } from "react-three-fiber";
+import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import Chat from "@/components/Chat";
 import Landing from "@/components/Landing";
 import Report from "@/components/Report";
