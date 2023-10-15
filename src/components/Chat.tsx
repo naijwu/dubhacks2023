@@ -4,8 +4,8 @@ import { generate } from "@/utils/synthesis";
 import { useEffect, useState } from "react";
 import { useAudioRecorder } from "react-audio-voice-recorder";
 import styles from "./Chat.module.css";
-import OpenAI from "openai";
 import { languagePayload } from "@/utils/types";
+import { openai } from "@/utils/openai";
 
 // const LANGUAGE: languagePayload = {
 //   plaintext: 'korean',
@@ -14,12 +14,10 @@ import { languagePayload } from "@/utils/types";
 
 export default function Chat({
     setup,
-    data,
     setData,
     onNext
 }: {
     setup: any;
-    data: any;
     setData: any;
     onNext: () => void;
 }) {
@@ -28,7 +26,7 @@ export default function Chat({
     const [messages, setMessages] = useState<any[]>([
         {
             role: "system",
-            content: `You are a helpful assistant helping people learn new languages by role playing real-world conversations. The situation facing the user is the following: ${setup.situation}. You'll be speaking in ${setup.language.plaintext} with the user. Keep in mind the user has a ${setup.difficulty} difficulty in terms of language proficiency (levels would be beginner, intermediate, advanced).`
+            content: `You are a helpful assistant helping people learn new languages by role playing real-world conversations. The user is ${setup.situation}. You'll be speaking in ${setup.language.plaintext} with the user. Keep in mind the user has a ${setup.difficulty} difficulty in terms of language proficiency (levels would be beginner, intermediate, advanced).`
             // `You are a helpful assistant helping people learn new languages by role playing real-world conversations. You are going to pretend to be a barista and the user is ordering a coffee from you. You'll be speaking in ${LANGUAGE.plaintext} with the user. Keep in mind the user has a intermediate difficulty in terms of language proficiency (levels would be beginner, intermediate, advanced).`,
         },
         {
@@ -47,11 +45,6 @@ export default function Chat({
     audio.autoplay = autoplay;
     document.body.appendChild(audio);
   };
-
-  const openai = new OpenAI({
-    apiKey: process.env.NEXT_PUBLIC_OPENAI_KEY,
-    dangerouslyAllowBrowser: true,
-  });
 
   // takes user response, sends it to openai, gets response and updates message
   const generateResponses = async (input: string) => {
@@ -126,9 +119,14 @@ export default function Chat({
     testFunc();
   }, [recordingBlob]);
 
+  function handleQuit() {
+    messages.splice(0, 2);
+    setData(messages);
+    onNext();
+  }
+
   return (
     <div className={styles.container}>
-
       <div className={styles.history}>
         {messages?.map((message, index) => index > 1 && (
           <div key={index}>
@@ -140,6 +138,9 @@ export default function Chat({
       <div className={styles.floatBottom}>
         <div className={styles.toggle} onClick={handleToggle}>
           {recording ? "Stop speaking" : "Start speaking"}
+        </div>
+        <div className={styles.exit} onClick={handleQuit}>
+            Quit
         </div>
       </div>
     </div>

@@ -3,13 +3,22 @@
 import Chat from "@/components/Chat";
 import Report from "@/components/Report";
 import Setup from "@/components/Setup";
+import { setupData } from "@/utils/types";
 import { useState } from "react";
 
 export default function Home() {
 
   const [currentScreen, setCurrentScreen] = useState<'setup' | 'chat' | 'report'>('setup');
 
-  const [setupData, setSetupData] = useState<any>();
+  // default values
+  const [setupData, setSetupData] = useState<setupData>({
+    language: {
+      plaintext: 'english',
+      code: 'en',
+    },
+    difficulty: 'beginner',
+    situation: 'taking an order from a barista at a coffee shop.'
+  });
   const [chatData, setChatData] = useState<any>();
 
   const handleNext = () => {
@@ -25,7 +34,7 @@ export default function Home() {
     <Report data={chatData} onNext={handleNext} />
   ) : (currentScreen === 'chat' && setupData) ? (
     // convo
-    <Chat setup={setupData} data={chatData} setData={setChatData} onNext={handleNext} />
+    <Chat setup={setupData} setData={setChatData} onNext={handleNext} />
   ) : (
     // setup
     <Setup data={setupData} setData={setSetupData} onNext={handleNext} />
