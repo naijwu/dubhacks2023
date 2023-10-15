@@ -35,7 +35,7 @@
 
 .container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   min-height: 100%;
@@ -55,6 +55,12 @@
 
   background-image: url("./../images/HomePage.svg");
   background-repeat: no-repeat;
+  /* background-color: blue; */
+}
+
+.landingText {
+  text-align: center;
+  padding-right: 35%;
 }
 
 .siwg {

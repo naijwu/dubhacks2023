@@ -34,26 +34,31 @@ export default function Landing({ onNext }: { onNext: () => void }) {
   };
 
   return (
-        <div className={styles.container}>
-            <div className={styles.hero}>
-                <Canvas 
-                    className={styles.animation}
-                    onCreated={({ gl }) => {
-                    gl.domElement.style.touchAction = 'auto';
-                    gl.domElement.style.userSelect = 'auto';
-                    }}>
-                    <PerspectiveCamera makeDefault position={[0, 0, 8]} rotation={[0, 0, 0]} />
-                    {/* <Penguin scale={0.005}/> */}
-                    <SpeechBubbles scale={0.035}/>
-                    {/* <PenguinBBQ/> */}
-                    {/* <OrbitControls/> */}
-                </Canvas>
-                <div className={styles.logo}>
-                    <div className={styles.logoContainer}>
-                        <Logo />
-                    </div>
-                </div>
-            </div>
+    <div className={styles.container}>
+      <div className={styles.hero}>
+        <Canvas
+          className={styles.animation}
+          onCreated={({ gl }) => {
+            gl.domElement.style.touchAction = "auto";
+            gl.domElement.style.userSelect = "auto";
+          }}
+        >
+          <PerspectiveCamera
+            makeDefault
+            position={[0, 0, 8]}
+            rotation={[0, 0, 0]}
+          />
+          {/* <Penguin scale={0.005}/> */}
+          <SpeechBubbles scale={0.035} />
+          {/* <PenguinBBQ/> */}
+          {/* <OrbitControls/> */}
+        </Canvas>
+        <div className={styles.logo}>
+          <div className={styles.logoContainer}>
+            <Logo />
+          </div>
+        </div>
+      </div>
 
       {currentUser ? (
         <div>
