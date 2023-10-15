@@ -80,7 +80,7 @@ export default function Landing({ onNext }: { onNext: () => void }) {
             <Image src="./images/mascotBBQ.gif"
             position="absolute"
             left="200px"
-            top="0"
+            top="-35px"
             scale="1.3"/>
         </Box>
     </Box>
