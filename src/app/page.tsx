@@ -1,24 +1,33 @@
 "use client";
 
+import { generate } from "@/utils/synthesis";
+import { useEffect, useState } from "react";
+import { useAudioRecorder } from "react-audio-voice-recorder";
+import styles from "./page.module.css";
+import OpenAI from "openai";
+import Penguin from "@/components/Penguin";
+import { Canvas } from "react-three-fiber";
+import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import Chat from "@/components/Chat";
 import Landing from "@/components/Landing";
 import Report from "@/components/Report";
 import Setup from "@/components/Setup";
 import { AuthProvider, useAuth } from "@/utils/AuthContext";
 import { setupData } from "@/utils/types";
-import { useState } from "react";
+import { Box, ChakraProvider, Flex } from "@chakra-ui/react";
 
 export default function Home() {
-  const [currentScreen, setCurrentScreen] = useState<'landing' | 'setup' | 'chat' | 'report'>('landing');
-
+  const [currentScreen, setCurrentScreen] = useState<
+    "landing" | "setup" | "chat" | "report"
+  >("landing");
 
   // default values
   const [setupData, setSetupData] = useState<setupData>({
     language: {
-      plaintext: 'english',
-      code: 'en',
+      plaintext: "english",
+      code: "en",
     },
-    difficulty: 'beginner',
+    difficulty: "beginner",
     situation: {
       user: 'customer',
       assistant: 'barista',
@@ -28,27 +37,37 @@ export default function Home() {
   const [chatData, setChatData] = useState<any>();
 
   const handleNext = () => {
-    if (currentScreen === 'landing') {
-      setCurrentScreen('setup');
-    } else if (currentScreen === 'setup') {
-      setCurrentScreen('chat');
-    } else if (currentScreen === 'chat') {
-      setCurrentScreen('report');
+    if (currentScreen === "landing") {
+      setCurrentScreen("setup");
+    } else if (currentScreen === "setup") {
+      setCurrentScreen("chat");
+    } else if (currentScreen === "chat") {
+      setCurrentScreen("report");
     }
-  }
+  };
 
-  return <AuthProvider>
-    {(currentScreen === 'report' && chatData) ? (
-    // report
-    <Report data={chatData} onNext={handleNext} />
-  ) : (currentScreen === 'chat' && setupData) ? (
-    // convo
-    <Chat setup={setupData} setData={setChatData} onNext={handleNext} />
-  ) : (currentScreen === 'setup') ? (
-    // setup
-    <Setup data={setupData} setData={setSetupData} onNext={handleNext} />
-  ) : (
-    <Landing onNext={handleNext}/>
-  )}
-  </AuthProvider>
+  return (
+    <AuthProvider>
+      <ChakraProvider>
+        <Flex height="100vh" alignItems="center" justifyContent="center">
+          {currentScreen === "report" && chatData ? (
+            // report
+            <Report data={chatData} onNext={handleNext} />
+          ) : currentScreen === "chat" && setupData ? (
+            // convo
+            <Chat setup={setupData} setData={setChatData} onNext={handleNext} />
+          ) : currentScreen === "setup" ? (
+            // setup
+            <Setup
+              data={setupData}
+              setData={setSetupData}
+              onNext={handleNext}
+            />
+          ) : (
+            <Landing onNext={handleNext} />
+          )}
+        </Flex>
+      </ChakraProvider>
+    </AuthProvider>
+  );
 }
