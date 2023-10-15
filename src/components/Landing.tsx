@@ -79,7 +79,7 @@ export default function Landing({ onNext }: { onNext: () => void }) {
         <Box maxW="100vw" w="calc(100% - 200px)" overflow="hidden">
             <Image src="./images/mascotBBQ.gif"
             position="absolute"
-            left="200px"
+            left="300px"
             top="-35px"
             scale="1.3"/>
         </Box>
