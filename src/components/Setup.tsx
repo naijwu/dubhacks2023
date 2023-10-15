@@ -15,9 +15,10 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import BetterProgress from "./BetterProgress";
 import ProgressBar from "./ProgressBar";
-// import styles from "./Setup.module.css";
-import styles from "./Chat.module.css";
+import styles from "./Setup.module.css";
+// import styles from "./Chat.module.css";
 
 export default function Setup({
   data,
@@ -126,9 +127,10 @@ export default function Setup({
         flexDirection: "column",
         paddingTop: "140px",
         alignItems: "center",
+        overflowX: "hidden",
       }}
     >
-      <ProgressBar page={stage === "language" ? 1 : stage === 'difficulty' ? 2 : 3} />
+      <BetterProgress stage={stage} />
 
       <div className={styles.blursContainer}>
         <div className={styles.blursInner}>
@@ -141,16 +143,16 @@ export default function Setup({
         </div>
       </div>
 
-      <div style={{          
+      <div style={{
         transition: 'all 0.5s cubic-bezier(.7,.23,.17,.87)',
-                  transform: `translateX(${-100 * (stage === 'language' ? 0 : stage === 'difficulty' ? 1 : 2)}%)`
-
+        transform: `translateX(${-100 * (stage === 'language' ? 0 : stage === 'difficulty' ? 1 : 2)}%)`
       }}>
         <div style={{
           position: 'relative',
           width: '300%',
           display: 'grid',
           gridTemplateColumns: '1fr 1fr 1fr',
+          overflowX: 'hidden',
         }}>
         <div
           style={{
