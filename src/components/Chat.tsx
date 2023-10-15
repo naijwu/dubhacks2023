@@ -46,7 +46,7 @@ export default function Chat({
       messages: [
         {
           role: "system",
-          content: `A ${setup.situation.user} is trying to ${setup.situation.action} from a ${setup.situation.assistant}. They told by ${setup.situation.assistant}: "${lastResponse}". Respond to this message with a recommended response the ${setup.situation.user} could say word for word to the ${setup.situation.assistant}, in the ${setup.language.plaintext} language.`,
+          content: `A ${setup.situation.user} is trying to ${setup.situation.action} from a ${setup.situation.assistant}. They told by ${setup.situation.assistant}: "${lastResponse}". Respond to this message with a recommended response the ${setup.situation.user} could say word for word to the ${setup.situation.assistant}, in the ${setup.language.plaintext} language, and in two sentences max.`,
         },
       ],
       model: "gpt-3.5-turbo",
