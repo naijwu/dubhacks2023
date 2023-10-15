@@ -11,8 +11,8 @@ import { useFrame } from 'react-three-fiber';
 
 export default function PenguinHome({ ...props }) {
 
-    const parentGroup = useRef();
-    const [positionY, setPositionY] = useState(0);
+    const parentGroup = useRef<any>();
+    const [positionY, setPositionY] = useState<any>(0);
     const amplitude = 0.1;
     const frequency = 1.2;
 

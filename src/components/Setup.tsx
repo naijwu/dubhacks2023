@@ -128,6 +128,8 @@ export default function Setup({
         alignItems: "center",
       }}
     >
+      <ProgressBar page={stage === "language" ? 1 : stage === 'difficulty' ? 2 : 3} />
+
       <div className={styles.blursContainer}>
         <div className={styles.blursInner}>
           <div className={styles.blurOne}>
@@ -138,7 +140,18 @@ export default function Setup({
           </div>
         </div>
       </div>
-      {stage === "language" && (
+
+      <div style={{          
+        transition: 'all 0.5s cubic-bezier(.7,.23,.17,.87)',
+                  transform: `translateX(${-100 * (stage === 'language' ? 0 : stage === 'difficulty' ? 1 : 2)}%)`
+
+      }}>
+        <div style={{
+          position: 'relative',
+          width: '300%',
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr 1fr',
+        }}>
         <div
           style={{
             display: "flex",
@@ -146,7 +159,6 @@ export default function Setup({
             alignItems: "center",
           }}
         >
-          <ProgressBar page={1} />
           <Box mt="50px" w="fit-content">
             <Text
               fontSize="40px"
@@ -170,10 +182,8 @@ export default function Setup({
             </Select>
           </Box>
         </div>
-      )}
-      {stage === "difficulty" && (
+
         <div>
-          <ProgressBar page={2} />
           <VStack color="white">
             <Text mt="25px" fontSize="37px" fontWeight="bold">
               Select level of difficulty:
@@ -221,10 +231,8 @@ export default function Setup({
             </Slider>
           </VStack>
         </div>
-      )}
-      {stage === "situation" && (
+        
         <div>
-          <ProgressBar page={3} />
           <VStack mt="70px" fontSize="25px" color="white">
             <Text>
               I am a{" "}
@@ -272,7 +280,9 @@ export default function Setup({
             </Text>
           </VStack>
         </div>
-      )}
+        
+      </div>
+      </div>
 
       <HStack
         bottom="135px"
