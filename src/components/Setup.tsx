@@ -34,8 +34,6 @@ export default function Setup({
 
     const [stage, setStage] = useState<'language' | 'difficulty' | 'situation'>('language');
 
-    const [isCustom, setIsCustom] = useState<boolean>(false);
-
     function updateDataField(key: string, value: any) {
         const updatedData = JSON.parse(JSON.stringify(data))
         updatedData[key] = value
@@ -50,17 +48,10 @@ export default function Setup({
         updateDataField('difficulty', difficulties[e.target.value])
     }
     
-    const handleSituation = (e: any) => {
-        if (e.target.value === 'Other') {
-            setIsCustom(true)
-            updateDataField('situation', "")
-        } else {
-            setIsCustom(false)
-            updateDataField('situation', e.target.value)
-        }
-    }
-    const handleCustomSituation = (e: any) => {
-        updateDataField('situation', e.target.value)
+    const handleSituation = (what: 'user' | 'assistant' | 'action', value: string) => {
+        const updatedSituations = JSON.parse(JSON.stringify(data.situation))
+        updatedSituations[what] = value
+        updateDataField('situation', updatedSituations)
     }
 
     const handlePrev = () => {
@@ -85,7 +76,7 @@ export default function Setup({
     return (
         <div>
             <div>
-                current stage: {stage} {stage === 'language' ? '1' : stage === 'difficulty' ? '2' : '3'}
+                Choosing {stage} ({stage === 'language' ? '1' : stage === 'difficulty' ? '2' : '3'})
             </div>
             {stage === 'language' && (
                 <div>
@@ -104,15 +95,12 @@ export default function Setup({
             {stage === 'situation' && (
                 <div>
                     select situation:
-                    <select onChange={handleSituation} defaultValue="English">
-                        <option>Ordering coffee from a barista</option>
-                        <option>Other</option>
-                    </select>
-                    {isCustom && (
-                        <div>
-                            <input type="text" value={data.situation} onChange={handleCustomSituation} />
-                        </div>
-                    )}
+                    
+                    <div>
+                        They are a <input value={data?.situation?.assistant || ''} onChange={e=>handleSituation('assistant', e.target.value)} /> 
+                        and you are a <input value={data?.situation?.user || ''} onChange={e=>handleSituation('user', e.target.value)} />. 
+                        You are trying to <input value={data?.situation?.action || ''} onChange={e=>handleSituation('action', e.target.value)} />.
+                    </div>
                 </div>
             )}
 

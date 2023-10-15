@@ -12,12 +12,13 @@ import Chat from "@/components/Chat";
 import Landing from "@/components/Landing";
 import Report from "@/components/Report";
 import Setup from "@/components/Setup";
+import { AuthProvider, useAuth } from "@/utils/AuthContext";
 import { setupData } from "@/utils/types";
 // import { useState } from "react";
 
 export default function Home() {
-
   const [currentScreen, setCurrentScreen] = useState<'landing' | 'setup' | 'chat' | 'report'>('landing');
+
 
   // default values
   const [setupData, setSetupData] = useState<setupData>({
@@ -26,7 +27,11 @@ export default function Home() {
       code: 'en',
     },
     difficulty: 'beginner',
-    situation: 'taking an order from a barista at a coffee shop.'
+    situation: {
+      user: '',
+      assistant: '',
+      action: '',
+    }
   });
   const [chatData, setChatData] = useState<any>();
 
@@ -39,7 +44,9 @@ export default function Home() {
       setCurrentScreen('report');
     }
   }
-  return (currentScreen === 'report' && chatData) ? (
+
+  return <AuthProvider>
+    {(currentScreen === 'report' && chatData) ? (
     // report
     <Report data={chatData} onNext={handleNext} />
   ) : (currentScreen === 'chat' && setupData) ? (
@@ -49,7 +56,7 @@ export default function Home() {
     // setup
     <Setup data={setupData} setData={setSetupData} onNext={handleNext} />
   ) : (
-    <Landing />
-
-  )
+    <Landing onNext={handleNext}/>
+  )}
+  </AuthProvider>
 }
