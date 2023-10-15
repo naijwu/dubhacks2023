@@ -26,10 +26,10 @@ export default function Home() {
     language: undefined,
     difficulty: "beginner",
     situation: {
-      user: 'customer',
-      assistant: 'barista',
-      action: 'buying a coffee',
-    }
+      user: "customer",
+      assistant: "barista",
+      action: "buy a coffee",
+    },
   });
   const [chatData, setChatData] = useState<any>();
 
@@ -48,22 +48,18 @@ export default function Home() {
   return (
     <AuthProvider>
       <ChakraProvider>
-          {currentScreen === "report" && chatData ? (
-            // report
-            <Report data={chatData} onNext={handleNext} />
-          ) : currentScreen === "chat" && setupData ? (
-            // convo
-            <Chat setup={setupData} setData={setChatData} onNext={handleNext} />
-          ) : currentScreen === "setup" ? (
-            // setup
-            <Setup
-              data={setupData}
-              setData={setSetupData}
-              onNext={handleNext}
-            />
-          ) : (
-            <Landing onNext={handleNext} />
-          )}
+        {currentScreen === "report" && chatData ? (
+          // report
+          <Report data={chatData} onNext={handleNext} />
+        ) : currentScreen === "chat" && setupData ? (
+          // convo
+          <Chat setup={setupData} setData={setChatData} onNext={handleNext} />
+        ) : currentScreen === "setup" ? (
+          // setup
+          <Setup data={setupData} setData={setSetupData} onNext={handleNext} />
+        ) : (
+          <Landing onNext={handleNext} />
+        )}
       </ChakraProvider>
     </AuthProvider>
   );

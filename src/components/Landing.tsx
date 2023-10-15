@@ -9,6 +9,7 @@ import { useAuth } from "@/utils/AuthContext";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "@/utils/config";
 import { useEffect } from "react";
+import PenguinBBQ from "./PenguinBBQ";
 
 export default function Landing({ onNext }: { onNext: () => void }) {
   const { currentUser, setCurrentUser, logout } = useAuth();
@@ -44,6 +45,7 @@ export default function Landing({ onNext }: { onNext: () => void }) {
                     <PerspectiveCamera makeDefault position={[0, 0, 8]} rotation={[0, 0, 0]} />
                     {/* <Penguin scale={0.005}/> */}
                     <SpeechBubbles scale={0.035}/>
+                    {/* <PenguinBBQ/> */}
                     {/* <OrbitControls/> */}
                 </Canvas>
                 <div className={styles.logo}>
