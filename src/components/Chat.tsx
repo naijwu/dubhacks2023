@@ -286,15 +286,9 @@ export default function Chat({
         <div className={styles.anchor}>
           <div className={styles.toggle} onClick={handleToggle}>
             {!loading ? (
-              recording ? (
-                <div className={styles.recordingButton}>
+                <div className={recording ? styles.recordingButton : styles.recordButton}>
                   <WhiteMic />
                 </div>
-              ) : (
-                <div className={styles.recordButton}>
-                  <WhiteMic />
-                </div>
-              )
             ) : (
               <div className={styles.loadingButton}>
                 <Image
