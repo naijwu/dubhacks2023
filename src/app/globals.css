@@ -96,7 +96,7 @@ a {
   }
 } */
 
-audio {
+audio.oneTime {
   display: none;
 }
 

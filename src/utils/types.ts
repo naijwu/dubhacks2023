@@ -1,6 +1,8 @@
 
 export type language = 'en' | 'kr' | 'fr' | 'cn'
 
+export type targetLanguage = 'en'
+
 export type languagePayload = {
     plaintext: string,
     code: language

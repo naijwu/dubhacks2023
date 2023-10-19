@@ -1,6 +1,21 @@
 /* .container {
-  overflow-y: auto !important;
+  background-image: url("./../images/HomePage.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
 } */
+
+.history {
+  position: fixed;
+  overflow: auto;
+  height: 100vh;
+  top: 0;
+  width: 100vw;
+}
+
+.history::-webkit-scrollbar-track {
+  background: var(--color-dark);
+}
 
 .blursContainer {
   max-height: 100vh;
@@ -155,7 +170,7 @@
   opacity: 0.75;
 }
 
-.history {
+.historyInner {
   display: flex;
   flex-direction: column;
   padding: 2rem 3rem;
@@ -216,4 +231,19 @@
   height: 200px;
   width: 200px;
   position: relative;
+}
+
+.textInner {
+  display: flex;
+  align-items: center;
+}
+
+.audioPlayer {
+  display: flex;
+  align-items: center;
+}
+
+.replayIcon {
+  padding-left: 0.5rem;
+  transform: scale(0.6);
 }
