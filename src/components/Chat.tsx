@@ -12,14 +12,21 @@ import Blur from "@/images/Blur";
 import { translate } from "@/utils/translate";
 import Replay from "@/images/Replay";
 
+const typeToExt: any = {
+  'audio/webm': 'webm',
+  'audio/mp4': 'mp4'
+}
+
 export default function Chat({
   setup,
   setData,
   onNext,
+  isMobile
 }: {
   setup: any;
   setData: any;
   onNext: () => void;
+  isMobile: boolean;
 }) {
 
   const locale = {
@@ -66,9 +73,12 @@ export default function Chat({
     setAudioUrls([...audioUrls, URL.createObjectURL(blob), '']);
 
     // audio file -> openAI whisper -> text
+    // TODO: enhance the recording from mobile -- seems to record in mp4 format (at least on safari iphone)
+    //      but the whisper AI recognition is broken (even though whisper ai supports mp4)
     const formData = new FormData();
-    const file = new File([blob], "audio.webm", { type: "webm/audio" });
-
+    const type = blob.type.split(';')[0]
+    const file = new File([blob], `audio.${typeToExt[type]}`, { type });
+    
     formData.append("model", "whisper-1");
     formData.append("file", file);
 
