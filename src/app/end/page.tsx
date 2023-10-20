@@ -3,7 +3,7 @@
 import styles from "./../page.module.css";
 import Penguin from "@/components/Penguin";
 import { Box, Button, Image, Text } from "@chakra-ui/react";
-import { PerspectiveCamera } from "@react-three/drei";
+import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { Canvas } from "react-three-fiber";
 import { useEffect, useLayoutEffect } from "react";
 import SpeechBubbles from "@/components/SpeechBubbles";
@@ -30,21 +30,20 @@ export default function Home() {
             gl.domElement.style.userSelect = "auto";
           }}
         >
+          <OrbitControls />
           <PerspectiveCamera
             makeDefault
-            position={[2, 0.5, 8]}
+            position={[2, -2, 8]}
             rotation={[0, 0, 0]}
           />
-          <PenguinHome scale={0.0115} s />
+          <PenguinHome position={[-3, 0, 0]} scale={0.0135} s />
         </Canvas>
       </Box>
 
       <Box position="absolute" top="0px" left="700px">
         <Box textAlign="center">
           <Image pt="50px" width="100%" src="./images/title.gif" alt="alt" />
-          <Text className="textHome"
-            position="relative"
-            bottom="110px">
+          <Text className="textHome" position="relative" bottom="110px">
             {`You've made it!`}
           </Text>
 
