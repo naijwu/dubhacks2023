@@ -13,31 +13,42 @@ import { translate } from "@/utils/translate";
 import Replay from "@/images/Replay";
 
 const typeToExt: any = {
-  'audio/webm': 'webm',
-  'audio/mp4': 'mp4'
-}
+  "audio/webm": "webm",
+  "audio/mp4": "mp4",
+};
 
 export default function Chat({
   setup,
   setData,
   onNext,
-  isMobile
+  isMobile,
 }: {
   setup: any;
   setData: any;
   onNext: () => void;
   isMobile: boolean;
 }) {
-
   const locale = {
-    plaintext: 'English',
-    code: 'en'
-  }
+    plaintext: "English",
+    code: "en",
+  };
 
   const sysPrompt = () => {
-    const translateDirective = setup.language.code !== locale.code
-    return `You are going to help the user learn new languages by role playing real-world conversations. You are a ${setup.situation.assistant}. They are a ${setup.situation.user}. They are trying to ${setup.situation.action}. You'll be speaking in ${setup.language.plaintext} with the user. The user has ${setup.difficulty} skill of that language: adjust the complexity of your responses to be the same as their language skill. ${translateDirective ? `Your response should be in two parts, separated by a | character. The first part is your response in ${setup.language.plaintext}. The second part that response in ${locale.plaintext}. Make sure your response strictly follows this.` : ''}`
-  }
+    const translateDirective = setup.language.code !== locale.code;
+    return `You are going to help the user learn new languages by role playing real-world conversations. You are a ${
+      setup.situation.assistant
+    }. They are a ${setup.situation.user}. They are trying to ${
+      setup.situation.action
+    }. You'll be speaking in ${
+      setup.language.plaintext
+    } with the user. The user has ${
+      setup.difficulty
+    } skill of that language: adjust the complexity of your responses to be the same as their language skill. ${
+      translateDirective
+        ? `Your response should be in two parts, separated by a | character. The first part is your response in ${setup.language.plaintext}. The second part that response in ${locale.plaintext}. Make sure your response strictly follows this.`
+        : ""
+    }`;
+  };
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -48,9 +59,9 @@ export default function Chat({
       content: sysPrompt(),
     },
   ]);
-  const [audioUrls, setAudioUrls] = useState<string[]>(['']);
-  const [botAudioUrls, setBotAudioUrls] = useState<string[]>(['']);
-  const [translations, setTranslations] = useState<string[]>(['']);
+  const [audioUrls, setAudioUrls] = useState<string[]>([""]);
+  const [botAudioUrls, setBotAudioUrls] = useState<string[]>([""]);
+  const [translations, setTranslations] = useState<string[]>([""]);
 
   function addAudioElement(blob: any, autoplay = false) {
     const url = URL.createObjectURL(blob);
@@ -58,7 +69,7 @@ export default function Chat({
     audio.src = url;
     audio.controls = true;
     audio.autoplay = autoplay;
-    audio.className = 'oneTime'
+    audio.className = "oneTime";
     document.body.appendChild(audio);
   }
 
@@ -70,15 +81,15 @@ export default function Chat({
     if (loading) return;
     setLoading(true);
 
-    setAudioUrls([...audioUrls, URL.createObjectURL(blob), '']);
+    setAudioUrls([...audioUrls, URL.createObjectURL(blob), ""]);
 
     // audio file -> openAI whisper -> text
     // TODO: enhance the recording from mobile -- seems to record in mp4 format (at least on safari iphone)
     //      but the whisper AI recognition is broken (even though whisper ai supports mp4)
     const formData = new FormData();
-    const type = blob.type.split(';')[0]
+    const type = blob.type.split(";")[0];
     const file = new File([blob], `audio.${typeToExt[type]}`, { type });
-    
+
     formData.append("model", "whisper-1");
     formData.append("file", file);
 
@@ -120,25 +131,24 @@ export default function Chat({
       model: "gpt-3.5-turbo",
     });
 
-    const responseText = chatCompletion.choices[0].message.content?.split('|') || [chatCompletion.choices[0].message.content, ''];
-    const mainResponse = responseText[0] || '';
-    const localeResponse = responseText[1] || '';
+    const responseText = chatCompletion.choices[0].message.content?.split(
+      "|"
+    ) || [chatCompletion.choices[0].message.content, ""];
+    const mainResponse = responseText[0] || "";
+    const localeResponse = responseText[1] || "";
 
     const completionMessageObj = {
       ...chatCompletion.choices[0].message,
-      content: mainResponse
-    }
+      content: mainResponse,
+    };
 
     updatedMessages.push(completionMessageObj);
     setMessages(updatedMessages);
 
     // audio of response
-    const blob = await generate(
-      mainResponse,
-      setup.language.code
-    );
+    const blob = await generate(mainResponse, setup.language.code);
 
-    setBotAudioUrls([...botAudioUrls, URL.createObjectURL(blob), '']);
+    setBotAudioUrls([...botAudioUrls, URL.createObjectURL(blob), ""]);
     addAudioElement(blob, true);
 
     setLoading(false);
@@ -147,13 +157,11 @@ export default function Chat({
     // get translation of response
     // const translation = await translate(responseText || "");
     // setTranslations([...translations, translation.data.translations[0].translatedText])
-    setTranslations([...translations, localeResponse, ''])
+    setTranslations([...translations, localeResponse, ""]);
 
     // get recommended response
-    await fetchRecommendedResponses(
-      mainResponse || ""
-    );
-  };
+    await fetchRecommendedResponses(mainResponse || "");
+  }
 
   // takes last response (gpt's response), and create a possible response
   async function fetchRecommendedResponses(lastResponse: string) {
@@ -233,49 +241,57 @@ export default function Chat({
 
       <div className={styles.history}>
         <div className={styles.historyInner}>
-        {messages?.length > 1 ? (
-          messages?.map(
-            (message, index) =>
-              index > 0 && (
-                <div
-                  className={`${styles.text} ${
-                    messages.length - 2 <= index ? styles.current : ""
-                  } ${message.role == "user" ? styles.right : styles.left}`}
-                  key={index}
-                >
-                  <div className={styles.textInner}>
-                    <div className={styles.textMain}>
-                      {message.content}
-                    </div>
+          {messages?.length > 1 ? (
+            messages?.map(
+              (message, index) =>
+                index > 0 && (
+                  <div
+                    className={`${styles.text} ${
+                      messages.length - 2 <= index ? styles.current : ""
+                    } ${message.role == "user" ? styles.right : styles.left}`}
+                    key={index}
+                  >
+                    <div className={styles.textInner}>
+                      <div className={styles.textMain}>{message.content}</div>
                       <div className={styles.audioPlayer}>
-                      {message.role == "user" ? (
+                        {message.role == "user" ? (
                           <audio id={`${index}`} src={audioUrls[index]}></audio>
-                      ) : (
-                        <audio id={`${index}`} src={botAudioUrls[index - 1]}></audio>
-                      )}
-                        <button className={styles.replayIcon} onClick={()=>{
-                          const audio = document.getElementById(`${index}`) as HTMLAudioElement
-                          audio?.play()
-                        }}>
+                        ) : (
+                          <audio
+                            id={`${index}`}
+                            src={botAudioUrls[index - 1]}
+                          ></audio>
+                        )}
+                        <button
+                          className={styles.replayIcon}
+                          onClick={() => {
+                            const audio = document.getElementById(
+                              `${index}`
+                            ) as HTMLAudioElement;
+                            audio?.play();
+                          }}
+                        >
                           <Replay />
                         </button>
-                    </div>
-                    </div>
-                    {message.role != "user" && translations[index - 1] && translations[index - 1] !== '' && (
-                      <div className={styles.textTranslation}>
-                        {translations[index - 1]}
                       </div>
-                    )}
-                </div>
-              )
-          )
-        ) : (
-          <div className={styles.conversationStart}>
-            Start the conversation!
-          </div>
-        )}
-        <div className={styles.bottomHistoryPad}></div>
-        <div ref={chatBottomRef}></div>
+                    </div>
+                    {message.role != "user" &&
+                      translations[index - 1] &&
+                      translations[index - 1] !== "" && (
+                        <div className={styles.textTranslation}>
+                          {translations[index - 1]}
+                        </div>
+                      )}
+                  </div>
+                )
+            )
+          ) : (
+            <div className={styles.conversationStart}>
+              Start the conversation!
+            </div>
+          )}
+          <div className={styles.bottomHistoryPad}></div>
+          <div ref={chatBottomRef}></div>
         </div>
       </div>
 
@@ -296,9 +312,13 @@ export default function Chat({
         <div className={styles.anchor}>
           <div className={styles.toggle} onClick={handleToggle}>
             {!loading ? (
-                <div className={recording ? styles.recordingButton : styles.recordButton}>
-                  <WhiteMic />
-                </div>
+              <div
+                className={
+                  recording ? styles.recordingButton : styles.recordButton
+                }
+              >
+                <WhiteMic />
+              </div>
             ) : (
               <div className={styles.loadingButton}>
                 <Image
@@ -316,6 +336,17 @@ export default function Chat({
             }`}
           >
             Possible response: {recommended}
+            <button
+              className={styles.replayIcon}
+              onClick={async () => {
+                const blob = await generate(recommended, setup.language.code);
+                const blobUrl = URL.createObjectURL(blob);
+                const audio = new Audio(blobUrl);
+                audio.play();
+              }}
+            >
+              <Replay />
+            </button>
           </div>
         </div>
         <div className={styles.exit} onClick={handleQuit}>

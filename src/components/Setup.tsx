@@ -35,6 +35,11 @@ export default function Setup({
     "Mandarin",
     "Korean",
     "French",
+    "Japanese",
+    "Spanish",
+    "Russian",
+    "Hindi",
+    "Arabic",
   ];
   const languageData: any = {
     English: {
@@ -52,6 +57,26 @@ export default function Setup({
     French: {
       plaintext: "french",
       code: "fr",
+    },
+    Japanese: {
+      plaintext: "japanese",
+      code: "jp",
+    },
+    Spanish: {
+      plaintext: "spanish",
+      code: "es",
+    },
+    Russian: {
+      plaintext: "russian",
+      code: "ru",
+    },
+    Hindi: {
+      plaintext: "hindi",
+      code: "hi",
+    },
+    Arabic: {
+      plaintext: "arabic",
+      code: "ar",
     },
   };
   const difficulties = ["beginner", "intermediate", "advanced"];

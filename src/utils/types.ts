@@ -1,5 +1,5 @@
 
-export type language = 'en' | 'kr' | 'fr' | 'cn'
+export type language = 'en' | 'kr' | 'fr' | 'cn' | 'jp' | 'es' | 'ru' | 'hi' | 'ar'
 
 export type targetLanguage = 'en'
 
