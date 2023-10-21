@@ -36,66 +36,68 @@ export default function Landing({ onNext }: { onNext: () => void }) {
 
   return (
     <Box className={styles.container}>
-        <div className={styles.landingText}>
-            <div className={styles.hero}>
-            <Canvas
+      <div className={styles.landingText}>
+        <div className={styles.hero}>
+          <Canvas
             className={styles.animation}
             onCreated={({ gl }) => {
-                gl.domElement.style.touchAction = "auto";
-                gl.domElement.style.userSelect = "auto";
+              gl.domElement.style.touchAction = "auto";
+              gl.domElement.style.userSelect = "auto";
             }}
-            >
+          >
             <PerspectiveCamera
-                makeDefault
-                position={[0, 0, 8]}
-                rotation={[0, 0, 0]}
+              makeDefault
+              position={[0, 0, 8]}
+              rotation={[0, 0, 0]}
             />
             <SpeechBubbles scale={0.035} />
-            </Canvas>
-            <div className={styles.logo}>
-                <div className={styles.logoContainer}>
-                    <Logo />
-                </div>
+          </Canvas>
+          <div className={styles.logo}>
+            <div className={styles.logoContainer}>
+              <Logo />
             </div>
+          </div>
 
-            <Text
-                className={styles.slogan}
-                position="relative"
-                bottom="140px"
-                textAlign="center">
-                Language learning made practical.
-            </Text>
+          <Text
+            className={styles.slogan}
+            position="relative"
+            bottom="140px"
+            textAlign="center"
+          >
+            Language learning made practical.
+          </Text>
         </div>
 
         {currentUser ? (
-            <div>
+          <div>
             <button onClick={onNext}>start</button>
             <button onClick={logout}>sign out</button>
-            </div>
+          </div>
         ) : (
-            <Button
+          <Button
             bgGradient="linear(to-b, #C2F9C9, #7BC6C1)"
             onClick={onNext}
             className={styles.siwg}
             zIndex="2"
             position="relative"
             bottom="35px"
-            >
+          >
             Start a new conversation
-            </Button>
+          </Button>
         )}
-        </div>
+      </div>
 
-        <Box maxW="100vw" w="calc(100% - 200px)" overflow="hidden">
-            <Image
-            // src="./images/mascotBBQ.gif"
-            src="./images/camping2.gif"
-            position="absolute"
-            left="300px"
-            top="-35px"
-            scale="1.2"/>
-        </Box>
+      <Box maxW="100vw" w="calc(100% - 200px)" overflow="hidden">
+        <Image
+          // src="./images/mascotBBQ.gif"
+          src="./images/camping2.gif"
+          alt="penguin"
+          position="absolute"
+          left="300px"
+          top="-35px"
+          scale="1.2"
+        />
+      </Box>
     </Box>
-    
   );
 }
